@@ -22,10 +22,10 @@ const BlogCards = () => {
 
             {/* Title */}
             <div className="text-center mb-12">
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                <h1 className="text-3xl font-bold text-white">
                     This Week Hot Blogs
                 </h1>
-                <p className="mt-2 text-gray-600 dark:text-gray-400">
+                <p className="mt-2 text-gray-400">
                     Stay updated with trending insights, fresh stories, and top Ethiopian coffee highlights.
                 </p>
             </div>
@@ -47,15 +47,15 @@ const BlogCards = () => {
                             </div>
 
                             <div className="grow">
-                                <h3 className="text-xl font-semibold text-gray-800 dark:text-neutral-300 group-hover:text-gray-600 dark:group-hover:text-white">
+                                <h3 className="text-xl font-semibold text-white group-hover:text-red-400 transition-colors">
                                     {post.title}
                                 </h3>
 
-                                <p className="mt-3 text-gray-600 dark:text-neutral-400">
+                                <p className="mt-3 text-gray-400">
                                     {post.description}
                                 </p>
 
-                                <p className="mt-4 inline-flex items-center gap-x-1 text-sm text-blue-600 group-hover:underline font-medium dark:text-blue-500">
+                                <p className="mt-4 inline-flex items-center gap-x-1 text-sm text-red-500 group-hover:underline font-medium">
                                     Read more {ReadMoreArrow}
                                 </p>
                             </div>

@@ -3,14 +3,14 @@ import { blogPosts } from "../../assets/assets";
 
 export default function LatestBlog() {
     return (
-        <div className="bg-gray-100 py-24 sm:py-32">
+        <div className="bg-transparent py-24 sm:py-32">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
 
                 <div className="mx-auto max-w-2xl text-center">
-                    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                    <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
                         Latest Ethiopian Coffee Blog
                     </h2>
-                    <p className="mt-2 text-lg leading-8 text-gray-600">
+                    <p className="mt-2 text-lg leading-8 text-gray-400">
                         Discover Ethiopia’s rich coffee heritage, from unique regional flavors
                         to traditional processing methods that shape its world-renowned taste
                     </p>
@@ -23,7 +23,7 @@ export default function LatestBlog() {
                         <article
                             key={post.id}
                             className="relative isolate flex flex-col justify-end rounded-2xl 
-                         overflow-hidden bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80 group"
+                         overflow-hidden bg-white/5 border border-white/10 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80 group hover:border-red-500/50 transition-colors"
                         >
                             <img
                                 src={post.imgSrc}
@@ -43,8 +43,8 @@ export default function LatestBlog() {
                                 {post.category && (
                                     <a
                                         href={post.category.href}
-                                        className="rounded-full bg-gray-50 px-3 py-1.5 text-gray-600 
-                               font-medium hover:bg-gray-100"
+                                        className="rounded-full bg-white/10 px-3 py-1.5 text-gray-300 
+                                font-medium hover:bg-white/20"
                                     >
                                         {post.category.title}
                                     </a>
@@ -58,14 +58,14 @@ export default function LatestBlog() {
                                 </a>
                             </h3>
 
-                            <p className="mt-2 text-sm text-gray-300">{post.description}</p>
+                            <p className="mt-2 text-sm text-gray-400">{post.description}</p>
 
                             {post.author && (
                                 <div className="flex items-center gap-x-4 border-t border-gray-100/10 pt-4 mt-6">
                                     <img
                                         src={post.author.imageUrl}
                                         alt=""
-                                        className="h-10 w-10 rounded-full bg-gray-50"
+                                        className="h-10 w-10 rounded-full bg-white/10"
                                     />
                                     <div className="text-sm leading-6">
                                         <p className="font-semibold text-white">
