@@ -51,7 +51,7 @@ const Navbar = ({ mobileOpen, setMobileOpen }) => {
 
         {/* Drawer */}
         <div
-          className={`relative w-[80%] max-w-sm h-full bg-white border-l border-gray-200 shadow-2xl flex flex-col pt-24 pb-10 px-8 transition-transform duration-500 ease-out ${
+          className={`relative w-[50%] max-w-sm h-full bg-white border-l border-gray-200 shadow-2xl flex flex-col pt-24 pb-10 px-8 transition-transform duration-500 ease-out ${
             mobileOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
@@ -61,35 +61,37 @@ const Navbar = ({ mobileOpen, setMobileOpen }) => {
 
           {/* Links */}
           <div className="flex flex-col space-y-4">
-            {navLinks.map((link, index) => {
-              const isActive = location.pathname === link.path;
-              return (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  onClick={() => setMobileOpen(false)}
-                  style={{ transitionDelay: `${index * 50}ms` }}
-                  className={`group flex items-center justify-between text-lg font-bold uppercase tracking-wider border-b pb-3 transition-all duration-300 ${
-                    mobileOpen
-                      ? "translate-x-0 opacity-100"
-                      : "translate-x-10 opacity-0"
-                  } ${
-                    isActive
-                      ? "text-red-600 border-red-500/50"
-                      : "text-gray-700 hover:text-black hover:border-gray-400"
-                  }`}
-                >
-                  <span>{link.name}</span>
-                  <span
-                    className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
+            {navLinks
+              .filter((link) => link.name === "Home")
+              .map((link, index) => {
+                const isActive = location.pathname === link.path;
+                return (
+                  <Link
+                    key={link.name}
+                    to={link.path}
+                    onClick={() => setMobileOpen(false)}
+                    style={{ transitionDelay: `${index * 50}ms` }}
+                    className={`group flex items-center justify-between text-lg font-bold uppercase tracking-wider border-b pb-3 transition-all duration-300 ${
+                      mobileOpen
+                        ? "translate-x-0 opacity-100"
+                        : "translate-x-10 opacity-0"
+                    } ${
                       isActive
-                        ? "bg-red-600 shadow-[0_0_8px_rgba(239,68,68,0.8)]"
-                        : "bg-transparent group-hover:bg-red-500"
+                        ? "text-red-600 border-red-500/50"
+                        : "text-gray-700 hover:text-black hover:border-gray-400"
                     }`}
-                  />
-                </Link>
-              );
-            })}
+                  >
+                    <span>{link.name}</span>
+                    <span
+                      className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
+                        isActive
+                          ? "bg-red-600 shadow-[0_0_8px_rgba(239,68,68,0.8)]"
+                          : "bg-transparent group-hover:bg-red-500"
+                      }`}
+                    />
+                  </Link>
+                );
+              })}
           </div>
 
           {/* Footer */}
