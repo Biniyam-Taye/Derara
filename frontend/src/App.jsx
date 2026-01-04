@@ -2,6 +2,8 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ContactUsPage from "./pages/ContactUsPage";
+import ServicePage from "./pages/Services/Service";
+import BlogPage from "./pages/Blogs/Blog";
 import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
 
@@ -14,6 +16,8 @@ const App = () => {
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/services" element={<ServicePage />} />
+          <Route path="/blog" element={<BlogPage />} />
           <Route path="/contact" element={<ContactUsPage />} />
 
           <Route path="*" element={<HomePage />} />
