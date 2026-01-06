@@ -28,13 +28,14 @@ const Header = () => {
     setMobileOpen(false);
   }, [location]);
 
+  const isBlogPage = location.pathname === '/blog';
+
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled || isBlogPage
           ? "bg-black/80 backdrop-blur-md shadow-lg py-3 border-b border-white/10"
           : "bg-transparent py-5 border-transparent"
-      }`}
+        }`}
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
         {/* LEFT: Logo */}

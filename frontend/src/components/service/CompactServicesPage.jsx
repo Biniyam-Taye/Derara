@@ -1,4 +1,6 @@
 import React from "react";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import ethiopianFarmerImg from "../../assets/ethiopian-farmer.jpg";
 import precisionProcessingImg from "../../assets/processing-machine.jpg";
 import wholesalePartnershipImg from "../../assets/wholesale-partnership.jpg";
@@ -12,6 +14,7 @@ import logisticsTruckImg from "../../assets/logistics-truck-v3.jpg";
 const servicesData = [
     {
         id: 1,
+        slug: "ethical-sourcing",
         title: "ETHICAL SOURCING & QUALITY",
         tagline: "From Farm to Cup",
         description: "Direct partnerships with smallholder farmers across legendary regions like Yirgacheffe, Sidamo, and Guji. This not only guarantees premium, traceable, single-origin beans but also empowers local communities through fair pricing and sustainable agricultural development.",
@@ -25,6 +28,7 @@ const servicesData = [
     },
     {
         id: 2,
+        slug: "precision-processing",
         title: "PRECISION PROCESSING",
         tagline: "Crafted with Care",
         description: "We employ state-of-the-art processing methods and custom-designed profiles for each single-origin lot, guided by moisture content, density, and varietal characteristics. Our goal is a perfectly repeatable, clean, and expressive cup.",
@@ -39,6 +43,7 @@ const servicesData = [
     },
     {
         id: 3,
+        slug: "global-logistics",
         title: "GLOBAL LOGISTICS",
         tagline: "Worldwide Delivery",
         description: "Seamless handling of customs, freight forwarding, and container shipping worldwide, ensuring timely delivery from Addis Ababa to your door. We minimize time between harvest and your roastery.",
@@ -53,6 +58,7 @@ const servicesData = [
     },
     {
         id: 4,
+        slug: "wholesale-partnership",
         title: "WHOLESALE PARTNERSHIP",
         tagline: "Built for Roasters",
         description: "Flexible volume contracts for roasters and distributors globally. Personalized consultation to match specific flavor profiles and pricing needs with dedicated support throughout your journey.",
@@ -86,6 +92,8 @@ const TornPaperDivider = ({ flip = false }) => (
 );
 
 const BrewlabServicesPage = () => {
+    const navigate = useNavigate();
+
     return (
         <div className="bg-[#2D1B13] text-white overflow-hidden">
             {/* Hero Section - Redesigned */}
@@ -144,6 +152,17 @@ const BrewlabServicesPage = () => {
                         <path fill="currentColor" d="M0,0 L500,0 C350,40 400,180 250,300 C120,400 30,420 0,550 Z" />
                     </svg>
 
+                    {/* TOP: Wave Design - Mirrored from Bottom */}
+                    <div className="absolute top-0 left-0 w-full overflow-hidden leading-none z-0">
+                        <svg className="relative block w-full h-[300px] md:h-[400px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".15" fill="#5D4037"></path>
+                            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".25" fill="#3E2723"></path>
+                            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" opacity=".4" fill="#2D1B13"></path>
+                        </svg>
+                        {/* Gradient Overlay for Smooth Transition */}
+                        <div className="absolute inset-x-0 bottom-0 h-full bg-gradient-to-t from-[#FFC436]/90 via-[#FFC436]/40 to-transparent mix-blend-overlay"></div>
+                    </div>
+
                     {/* Layer 1: Light Mocha - Top/Abstract */}
                     <svg className="absolute top-0 right-0 w-full h-[80%] text-[#8B5E3C] opacity-5 transform translate-x-1/2 -translate-y-1/4 blur-3xl" viewBox="0 0 200 200" fill="currentColor">
                         <path d="M45,-76C58.3,-69.3,69.1,-58.3,78.2,-46C87.3,-33.7,94.7,-20.1,93.4,-6.9C92.1,6.3,82.1,19.1,72.3,30.8C62.5,42.5,52.9,53.1,41.9,61.8C30.9,70.5,18.5,77.3,5.3,79.8C-7.9,82.3,-21.9,80.5,-34.5,74.5C-47.1,68.5,-58.3,58.3,-67.4,46.5C-76.5,34.7,-83.5,21.3,-82.5,8.3C-81.5,-4.7,-72.5,-17.3,-62.7,-27.9C-52.9,-38.5,-42.3,-47.1,-31.1,-55.1C-19.9,-63.1,-8.1,-70.5,2.9,-75.1C13.9,-79.7,27.8,-81.5,41.7,-82.7L45,-76Z" transform="translate(100 100)" />
@@ -169,37 +188,57 @@ const BrewlabServicesPage = () => {
 
                     {/* Main Heading - Redesigned - Smaller */}
                     <div className="mb-6 text-black">
-                        {/* High Contrast Black & White */}
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black leading-none tracking-tighter mb-2 relative z-10">
+                        {/* High Contrast Black & White - UPDATED to match Blog Style */}
+                        {/* High Contrast Black & White - Reverted to Original Style */}
+                        <motion.h1
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8 }}
+                            className="text-4xl md:text-6xl lg:text-7xl font-black leading-none tracking-tighter mb-2 relative z-10"
+                        >
                             OUR <span className="relative inline-block text-black drop-shadow-[0_2px_0_rgba(255,255,255,1)]">
                                 SERVICES
                                 <svg className="absolute w-full h-3 -bottom-1 left-0 text-black opacity-100" viewBox="0 0 200 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.00025 6.99992C18.5002 9.00003 33.5002 5.00002 48.0002 2.50002C62.5002 0.000021 77.5002 2.00002 91.5002 4.50002C105.5 7.00002 120.5 9.00003 134.5 9.00003C148.5 9.00003 163.5 6.50002 177.5 4.00002C191.5 1.50002 199.5002 2.50002 199.5002 2.50002" stroke="currentColor" strokeWidth="3" /></svg>
                             </span>
-                        </h1>
-                        <p className="text-lg md:text-xl font-serif italic font-bold text-black mt-2 tracking-wide opacity-90">
-                            Seamless • Reliable • Global
+                        </motion.h1>
+                        <p className="text-sm md:text-lg font-sans font-black mt-6 tracking-[0.25em] uppercase drop-shadow-xl">
+                            <span className="text-black">SEAMLESS</span> <span className="text-[#D62828] mx-2">•</span> <span className="text-[#D62828]">RELIABLE</span> <span className="text-[#D62828] mx-2">•</span> <span className="text-black">GLOBAL</span>
                         </p>
                     </div>
 
-                    {/* Description - Updated - Smaller */}
-                    <p className="text-base md:text-lg text-black max-w-xl mx-auto leading-relaxed font-medium mb-6 font-serif">
+                    {/* Description - Updated - Readable Sans-Serif */}
+                    <p className="text-base md:text-lg text-black max-w-2xl mx-auto leading-relaxed font-sans font-medium mb-8 drop-shadow-sm px-4">
                         We connect Ethiopian coffee farmers with roasters worldwide through vertically integrated export solutions.
                     </p>
 
                     {/* Buttons - Added - Smaller */}
-                    <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.6 }}
+                        className="flex flex-col md:flex-row items-center justify-center gap-4"
+                    >
                         <button className="px-6 py-2.5 bg-[#2D1B13] text-[#FFC436] text-sm md:text-base font-black rounded-full hover:scale-105 transition-transform duration-300 shadow-xl border-2 border-[#2D1B13]">
                             GET A QUOTE
                         </button>
                         <button className="px-6 py-2.5 bg-transparent text-[#2D1B13] text-sm md:text-base font-black rounded-full hover:bg-[#2D1B13] hover:text-[#FFC436] transition-all duration-300 border-2 border-[#2D1B13]">
                             LEARN MORE
                         </button>
-                    </div>
+                    </motion.div>
 
                     {/* Mini Service Cards - Integrated in Hero */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-16 text-left relative z-20">
-                        {servicesData.map((service) => (
-                            <div key={service.id} className="flex flex-col bg-[#1A100B] rounded-[2rem] overflow-hidden shadow-2xl hover:shadow-[#FFC436]/20 hover:-translate-y-2 hover:scale-[1.02] transition-all duration-500 group border border-[#2D1B13] h-full relative font-sans">
+                        {servicesData.map((service, index) => (
+                            <motion.div
+                                key={service.id}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                className="flex flex-col bg-[#1A100B] rounded-[2rem] overflow-hidden shadow-2xl hover:shadow-[#FFC436]/20 hover:-translate-y-2 hover:scale-[1.02] transition-all duration-500 group border border-[#2D1B13] h-full relative font-sans"
+                            >
                                 {/* Top Image Area */}
                                 <div className="relative h-60 w-full overflow-hidden shrink-0">
                                     {/* Bookmark Icon */}
@@ -247,11 +286,14 @@ const BrewlabServicesPage = () => {
                                     </div>
 
                                     {/* Button */}
-                                    <button className="w-full py-3.5 bg-white text-black font-black text-base rounded-2xl hover:bg-[#FFC436] transition-colors duration-300 shadow-xl uppercase tracking-wide">
+                                    <button
+                                        onClick={() => navigate(`/services/${service.slug}`)}
+                                        className="w-full py-3.5 bg-white text-black font-black text-base rounded-2xl hover:bg-[#FFC436] transition-colors duration-300 shadow-xl uppercase tracking-wide"
+                                    >
                                         Learn More
                                     </button>
                                 </div>
-                            </div>
+                            </motion.div>
                         ))}
                     </div>
                 </div>
@@ -304,8 +346,12 @@ const BrewlabServicesPage = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[600px] relative z-10">
                         {servicesData.map((service, index) => (
-                            <div
+                            <motion.div
                                 key={service.id}
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.7, delay: index * 0.1 }}
                                 className={`group relative rounded-[2.5rem] overflow-hidden shadow-2xl transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] hover:shadow-[0_20px_60px_-15px_rgba(255,196,54,0.3)]
                                     ${index === 0 || index === 3 ? 'md:col-span-7' : 'md:col-span-5'}
                                 `}
@@ -361,14 +407,17 @@ const BrewlabServicesPage = () => {
                                     </div>
 
                                     {/* Action Button */}
-                                    <div className="flex items-center gap-4 pt-4 border-t border-white/10 opacity-60 group-hover:opacity-100 transition-opacity duration-500">
+                                    <div
+                                        onClick={() => navigate(`/services/${service.slug}`)}
+                                        className="flex items-center gap-4 pt-4 border-t border-white/10 opacity-60 group-hover:opacity-100 transition-opacity duration-500 cursor-pointer"
+                                    >
                                         <span className="text-white font-black uppercase tracking-widest text-sm group-hover:text-[#FFC436] transition-colors">Learn More</span>
                                         <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#FFC436] group-hover:text-black transition-all">
                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         ))}
                     </div>
                 </div>
@@ -422,7 +471,13 @@ const BrewlabServicesPage = () => {
                         Get in touch today to discuss how we can support your coffee sourcing needs.
                     </p>
 
-                    <div className="flex items-center justify-center gap-4">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.3 }}
+                        className="flex items-center justify-center gap-4"
+                    >
                         <button className="px-10 py-5 bg-[#FFB500] text-[#2D1B13] font-black rounded-full hover:bg-white transition-all duration-300 shadow-2xl text-xl">
                             GET IN TOUCH
                         </button>
@@ -431,7 +486,7 @@ const BrewlabServicesPage = () => {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                             </svg>
                         </button>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </div>

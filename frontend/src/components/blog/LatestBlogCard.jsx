@@ -1,5 +1,6 @@
 import React from "react";
 import { blogPosts } from "../../assets/assets";
+import { motion } from "framer-motion";
 
 export default function LatestBlog() {
     return (
@@ -44,7 +45,13 @@ export default function LatestBlog() {
             </div>
             <div className="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
 
-                <div className="mx-auto max-w-2xl text-center mb-16">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="mx-auto max-w-2xl text-center mb-16"
+                >
                     <h2 className="text-3xl font-black tracking-widest sm:text-5xl uppercase" style={{ fontFamily: '"Orbitron", sans-serif' }}>
                         <span className="text-[#D62828]">Latest</span> <span className="text-black inline-block transform hover:scale-105 transition-transform duration-300 drop-shadow-sm">Ethiopian Coffee</span> <span className="text-[#D62828]">Blog</span>
                     </h2>
@@ -56,14 +63,18 @@ export default function LatestBlog() {
                         <div className="h-2 w-16 bg-[#D62828] rounded-full"></div>
                         <div className="h-2 w-8 bg-black rounded-full"></div>
                     </div>
-                </div>
+                </motion.div>
 
                 <div className="mx-auto mt-16 grid max-w-2xl auto-rows-fr grid-cols-1 gap-8 
                         sm:mt-20 lg:max-w-none lg:grid-cols-3">
 
-                    {blogPosts.slice(0, 3).map((post) => (
-                        <article
+                    {blogPosts.slice(0, 3).map((post, index) => (
+                        <motion.article
                             key={post.id}
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: index * 0.2 }}
                             className="relative isolate flex flex-col justify-end rounded-2xl 
                          overflow-hidden bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80 group border-2 border-transparent hover:border-[#FFC436] transition-all duration-300 hover:shadow-2xl hover:shadow-[#FFC436]/20"
                         >
@@ -122,7 +133,7 @@ export default function LatestBlog() {
                                     </div>
                                 </div>
                             )}
-                        </article>
+                        </motion.article>
                     ))}
                 </div>
             </div>
