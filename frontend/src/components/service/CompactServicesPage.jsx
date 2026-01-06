@@ -132,6 +132,35 @@ const BrewlabServicesPage = () => {
                     <svg className="absolute bottom-[25%] right-[10%] w-14 h-14 text-[#2D1B13] opacity-60" fill="currentColor" viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" /></svg>
                 </div>
 
+                {/* Brownish Layers Design - Branding Integration */}
+                <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+                    {/* TOP LEFT: Paint Design Curve - Fluid Layer 1 */}
+                    <svg className="absolute top-0 left-0 w-[70%] md:w-[50%] h-[600px] text-[#2D1B13] opacity-20" viewBox="0 0 800 800" preserveAspectRatio="none">
+                        <path fill="currentColor" d="M0,0 L600,0 C450,50 500,200 300,350 C150,460 50,500 0,650 Z" />
+                    </svg>
+
+                    {/* TOP LEFT: Paint Design Curve - Fluid Layer 2 */}
+                    <svg className="absolute top-0 left-0 w-[65%] md:w-[45%] h-[500px] text-[#5D4037] opacity-15" viewBox="0 0 800 800" preserveAspectRatio="none">
+                        <path fill="currentColor" d="M0,0 L500,0 C350,40 400,180 250,300 C120,400 30,420 0,550 Z" />
+                    </svg>
+
+                    {/* Layer 1: Light Mocha - Top/Abstract */}
+                    <svg className="absolute top-0 right-0 w-full h-[80%] text-[#8B5E3C] opacity-5 transform translate-x-1/2 -translate-y-1/4 blur-3xl" viewBox="0 0 200 200" fill="currentColor">
+                        <path d="M45,-76C58.3,-69.3,69.1,-58.3,78.2,-46C87.3,-33.7,94.7,-20.1,93.4,-6.9C92.1,6.3,82.1,19.1,72.3,30.8C62.5,42.5,52.9,53.1,41.9,61.8C30.9,70.5,18.5,77.3,5.3,79.8C-7.9,82.3,-21.9,80.5,-34.5,74.5C-47.1,68.5,-58.3,58.3,-67.4,46.5C-76.5,34.7,-83.5,21.3,-82.5,8.3C-81.5,-4.7,-72.5,-17.3,-62.7,-27.9C-52.9,-38.5,-42.3,-47.1,-31.1,-55.1C-19.9,-63.1,-8.1,-70.5,2.9,-75.1C13.9,-79.7,27.8,-81.5,41.7,-82.7L45,-76Z" transform="translate(100 100)" />
+                    </svg>
+
+                    {/* Layer 2: Medium Roast - Wave Transition */}
+                    <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
+                        <svg className="relative block w-full h-[300px] md:h-[400px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".15" fill="#5D4037"></path>
+                            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".25" fill="#3E2723"></path>
+                            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" opacity=".4" fill="#2D1B13"></path>
+                        </svg>
+                        {/* Gradient Overlay for Smooth Transition */}
+                        <div className="absolute inset-x-0 bottom-0 h-full bg-gradient-to-t from-[#FFC436]/90 via-[#FFC436]/40 to-transparent mix-blend-overlay"></div>
+                    </div>
+                </div>
+
                 <div className="max-w-6xl mx-auto text-center relative z-10 px-4">
                     {/* Badge */}
                     <div className="inline-block border-2 border-black rounded-full px-5 py-1.5 mb-6 bg-white transform -rotate-2 hover:rotate-0 transition-transform duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
@@ -228,10 +257,8 @@ const BrewlabServicesPage = () => {
                 </div>
             </div>
 
-            {/* Torn Paper Divider */}
-            <div className="text-[#FFC436]">
-                <TornPaperDivider />
-            </div>
+            {/* Smooth Fade Transition from Hero to Services */}
+            <div className="w-full h-32 bg-gradient-to-b from-[#FFC436] via-[#FFDFA0] to-[#FFF5D1] -mt-1 relative z-10"></div>
 
             {/* Services Section - Asymmetrical Bento Grid */}
             <div className="bg-[#FFF5D1] py-20 px-4 md:px-8 overflow-hidden">
