@@ -321,7 +321,8 @@ const About = () => {
         </div>
       </section>
 
-      {/* 🗺️ Coffee Regions - Legacy of Flavor */}
+     {/* 🗺️ Coffee Regions - Legacy of Flavor */}
+    
       <section className="relative py-32 px-6 md:px-20 bg-[#FDFCF8] dark:bg-[#0a0a0a] overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">

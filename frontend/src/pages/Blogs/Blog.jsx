@@ -6,6 +6,7 @@ export default function Blog() {
     const [blogs, setBlogs] = useState(null);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         const fetchBlogs = async () => {
             try {
                 const res = await fetch(`${import.meta.env.VITE_API_URL}/ops/blogs`);

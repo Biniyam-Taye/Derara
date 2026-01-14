@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SignIn } from '@clerk/clerk-react';
 
 const LoginPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="min-h-screen pt-24 pb-12 px-6 flex items-center justify-center bg-gray-50 dark:bg-gray-900">
        <SignIn 

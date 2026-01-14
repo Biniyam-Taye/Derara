@@ -100,7 +100,7 @@ const Carousel = () => {
 
       {/* Slide 4 */}
       <div
-        className={`absolute inset-0 transition-all duration-1000 ease-in-out
+        className={`w-full h-[400px] absolute inset-0 transition-all duration-1000 ease-in-out
           ${current === 3 ? "opacity-100 scale-100" : "opacity-0 scale-105"}
         `}
       >
