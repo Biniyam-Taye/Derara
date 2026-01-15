@@ -77,7 +77,7 @@ const About = () => {
         />
         <div className="absolute inset-0 bg-black opacity-30"></div>
 
-        <div className="relative z-10 max-w-4xl px-6 pt-24 md:pt-0">
+        <div className="relative z-10 max-w-4xl px-6 pt-40 md:pt-0">
           <h1 className="text-6xl md:text-5xl font-bold text-white mb-6 tracking-tight leading-snug">
             Delivering the World’s Finest{" "}
             <span className="text-[#A37D5C]">Ethiopian Arabica</span> Coffee
@@ -325,7 +325,7 @@ const About = () => {
 
      {/* 🗺️ Coffee Regions - Legacy of Flavor */}
     
-      <section className="relative py-32 px-6 md:px-20 bg-[#FDFCF8] dark:bg-[#0a0a0a] overflow-hidden">
+      <section className="hidden md:block relative py-32 px-6 md:px-20 bg-[#FDFCF8] dark:bg-[#0a0a0a] overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
             <motion.div
