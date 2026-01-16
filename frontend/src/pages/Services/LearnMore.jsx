@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useParams, useNavigate } from "react-router-dom";
 import ethiopianFarmerImg from "../../assets/ethiopian-farmer.jpg";
 import precisionProcessingImg from "../../assets/processing-machine.jpg";
@@ -207,6 +207,8 @@ const servicesData = [
 export default function LearnMore() {
     const { serviceSlug } = useParams();
     const navigate = useNavigate();
+    const { scrollYProgress } = useScroll();
+    const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
     const service = servicesData.find(s => s.slug === serviceSlug);
 
@@ -226,237 +228,196 @@ export default function LearnMore() {
         );
     }
 
+    const { detailedContent } = service;
+
     return (
-        <div className="bg-white min-h-screen">
+        <div className="min-h-screen bg-white dark:bg-[#0a0a0a] text-gray-900 dark:text-white pb-20 font-sans selection:bg-[#D62828] selection:text-white">
+            {/* Reading Progress Bar */}
+            <motion.div
+                className="fixed top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#D62828] to-[#FFC436] origin-left z-50"
+                style={{ scaleX }}
+            />
 
+            {/* Hero Section */}
+            <div className="relative min-h-[85vh] w-full flex flex-col overflow-hidden bg-[#050505]">
+                {/* Premium Abstract Background */}
+                <div className="absolute inset-0 w-full h-full overflow-hidden">
+                    {/* Golden/Brown Theme - Centered & Lowered to clear Navbar */}
+                    <div className="absolute top-[140px] left-1/2 -translate-x-1/2 w-[80vh] h-[80vh] rounded-full bg-[#B8860B] opacity-20 blur-[140px] animate-pulse" />
+                    <div className="absolute -bottom-[20%] left-1/2 -translate-x-1/2 w-[90vh] h-[90vh] rounded-full bg-[#FFD700] opacity-10 blur-[140px]" />
+                    <div className="absolute top-[40%] left-1/2 -translate-x-1/2 w-[70vh] h-[70vh] rounded-full bg-[#4E342E] opacity-50 blur-[120px]" />
+                    {/* Subtle Grid Pattern */}
+                    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+                </div>
 
-            {/* Hero Section - Two Column Layout */}
-            <div className="max-w-7xl mx-auto px-6 py-20">
-                <div className="grid lg:grid-cols-2 gap-16 items-center">
-                    {/* Left Column - Content */}
+                {/* Gradient Overlay for Text Readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent z-10" />
+
+                <div className="relative z-20 flex-grow flex flex-col justify-end pb-16 pt-40 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
                     <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8 }}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2, duration: 0.8 }}
                     >
-                        {/* Category Badge */}
-                        <div className="mb-6">
-                            <span className="text-sm font-bold text-black uppercase tracking-wider">
-                                Premium Service
-                            </span>
-                        </div>
+                        {/* Back Button */}
+                        <button
+                            onClick={() => navigate('/services')}
+                            className="group flex items-center gap-3 mb-8 text-white/80 hover:text-[#FFC436] transition-colors duration-300"
+                        >
+                            <div className="p-2.5 rounded-full bg-white/10 group-hover:bg-[#FFC436] group-hover:text-black transition-all duration-300 backdrop-blur-md border border-white/10 shadow-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                                </svg>
+                            </div>
+                            <span className="font-bold uppercase tracking-widest text-xs hidden sm:block">Back to Services</span>
+                        </button>
 
-                        {/* Main Title */}
-                        <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-black mb-8 leading-none">
-                            {service.title.split(' ').map((word, idx) => (
-                                <React.Fragment key={idx}>
-                                    {word}
-                                    {idx < service.title.split(' ').length - 1 && <br />}
-                                </React.Fragment>
-                            ))}
+                        <span className="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-wider text-black bg-[#FFC436] rounded-full uppercase shadow-lg shadow-black/20">
+                            {service.tagline}
+                        </span>
+
+                        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white mb-8 leading-tight max-w-5xl drop-shadow-lg break-words" style={{ fontFamily: '"Orbitron", sans-serif' }}>
+                            {service.title}
                         </h1>
 
-                        {/* Description */}
-                        <p className="text-lg text-gray-700 leading-relaxed mb-10">
-                            {service.description}
-                        </p>
-
-                        {/* Email Input & CTA */}
-                        <div className="mb-10">
-                            <label className="block text-sm font-medium text-gray-700 mb-3">
-                                Get Started Today
-                            </label>
-                            <div className="flex gap-3">
-                                <input
-                                    type="email"
-                                    placeholder="Your email"
-                                    className="flex-1 px-5 py-3 border-b-2 border-gray-300 focus:border-black outline-none text-base transition-colors"
-                                />
-                                <button className="px-8 py-3 bg-black text-white font-bold rounded-md hover:bg-[#FFC436] hover:text-black transition-all">
-                                    TRY IT OUT
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Info Cards */}
-                        <div className="grid grid-cols-2 gap-6">
-                            {/* Stay Informed Card */}
-                            <div className="relative group">
-                                <div className="absolute inset-0 bg-black rounded-2xl translate-x-1 translate-y-1 group-hover:translate-x-3 group-hover:translate-y-3 transition-transform duration-300"></div>
-                                <div className="relative border-2 border-black rounded-2xl p-6 bg-white transition-transform duration-300 group-hover:-translate-x-1 group-hover:-translate-y-1 h-full">
-                                    <h3 className="text-xl font-black text-black mb-2 leading-tight">
-                                        Stay<br />informed
-                                    </h3>
-                                    <p className="text-xs text-gray-600 leading-relaxed">
-                                        Updates on new tech, projects and initiatives shaping the future of the World.
-                                    </p>
+                        <div className="flex flex-wrap items-center gap-6 text-white/90 backdrop-blur-sm bg-white/5 p-4 rounded-xl border border-white/10 w-fit">
+                            <div className="flex items-center gap-3">
+                                <div className="w-12 h-12 rounded-full bg-[#FFC436] flex items-center justify-center text-black font-bold text-lg">
+                                    D
+                                </div>
+                                <div>
+                                    <p className="font-bold text-base">Derara Coffee</p>
+                                    <p className="text-xs uppercase tracking-wider opacity-80">Premium Service</p>
                                 </div>
                             </div>
-
-                            {/* Stats Card */}
-                            <div className="relative group">
-                                <div className="absolute inset-0 bg-black rounded-2xl translate-x-1 translate-y-1 group-hover:translate-x-3 group-hover:translate-y-3 transition-transform duration-300"></div>
-                                <div className="relative border-2 border-black rounded-2xl p-6 bg-white transition-transform duration-300 group-hover:-translate-x-1 group-hover:-translate-y-1 h-full">
-                                    <div className="text-xs font-bold text-black mb-1 uppercase tracking-wider">Join</div>
-                                    <div className="text-3xl font-black text-black mb-1">
-                                        {service.detailedContent.stats.readers}
-                                    </div>
-                                    <div className="text-sm text-gray-700 font-medium">
-                                        {service.detailedContent.stats.label}
-                                    </div>
+                            <div className="hidden sm:block h-8 w-px bg-white/30" />
+                            <div className="flex gap-6">
+                                <div>
+                                    <p className="font-bold text-sm uppercase tracking-wider text-[#FFC436]">Included</p>
+                                    <p className="text-sm font-medium">{service.features.length} Key Features</p>
+                                </div>
+                                <div>
+                                    <p className="font-bold text-sm uppercase tracking-wider text-[#FFC436]">{detailedContent.stats.label}</p>
+                                    <p className="text-sm font-medium">{detailedContent.stats.readers}</p>
                                 </div>
                             </div>
                         </div>
                     </motion.div>
+                </div>
+            </div>
 
-                    {/* Right Column - Image */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 30 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="relative"
-                    >
-                        <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+            {/* Content Section */}
+            <article className="max-w-7xl mx-auto px-4 sm:px-6 -mt-10 relative z-30">
+                <div className="bg-white dark:bg-[#0a0a0a] rounded-t-3xl p-6 sm:p-10 lg:p-14 shadow-2xl dark:shadow-2xl dark:border dark:border-white/10 border-t border-gray-100 transition-all duration-500 hover:shadow-[0_0_50px_-10px_rgba(255,196,54,0.15)]">
+
+                    {/* Intro & Main Description */}
+                    <div className="prose prose-lg sm:prose-xl dark:prose-invert max-w-none mt-4 font-serif text-justify leading-relaxed">
+
+                        {/* Drop Cap Intro */}
+                        <div className="mb-12">
+                            <p className="break-inside-avoid text-gray-800 dark:text-gray-200 leading-9 text-lg sm:text-xl relative">
+                                <span className="float-left text-[5.5rem] font-bold text-[#D62828] mr-4 mt-[-8px] leading-[0.75] font-serif">
+                                    {detailedContent.overview.charAt(0)}
+                                </span>
+                                <span className="uppercase tracking-widest text-sm font-bold mr-2">
+                                    Overview
+                                </span>
+                                {detailedContent.overview.slice(1)}
+                            </p>
+                        </div>
+
+                        {/* Feature Image */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="my-12 relative rounded-2xl overflow-hidden shadow-2xl"
+                        >
                             <img
                                 src={service.bentoImage || service.image}
                                 alt={service.title}
-                                className="w-full h-[600px] object-cover"
+                                className="w-full h-[400px] sm:h-[500px] object-cover hover:scale-105 transition-transform duration-700"
                             />
-                            {/* Decorative Circle Badge */}
-                            <div className="absolute bottom-8 right-8 w-32 h-32 bg-white rounded-full flex items-center justify-center shadow-xl">
-                                <div className="text-center">
-                                    <div className="text-xs font-bold text-black uppercase mb-1">Join Us</div>
-                                    <svg className="w-12 h-12 mx-auto text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <circle cx="12" cy="12" r="10" />
-                                        <path d="M12 6v6l4 2" />
-                                    </svg>
-                                    <div className="text-xs text-gray-600 mt-1">Begin Now</div>
-                                </div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
+                                <p className="text-white font-serif italic text-xl">The art of {service.title.toLowerCase()} </p>
                             </div>
-                        </div>
-                    </motion.div>
-                </div>
-            </div>
+                        </motion.div>
 
-            {/* Benefits Section */}
-            <div className="bg-gray-50 py-20">
-                <div className="max-w-7xl mx-auto px-6">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="text-center mb-16"
-                    >
-                        <h2 className="text-4xl md:text-5xl font-black text-black mb-4">
+                        {/* Detailed Description */}
+                        <p className="mb-12">
+                            {service.description}
+                        </p>
+
+
+                        {/* Key Benefits Section (Magazine Style) */}
+                        <h2 className="text-3xl font-black text-black dark:text-white mt-16 mb-8 font-sans border-l-4 border-[#FFC436] pl-4">
                             Key Benefits
                         </h2>
-                        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                            Discover what makes our {service.tagline.toLowerCase()} approach unique
-                        </p>
-                    </motion.div>
 
-                    <div className="grid md:grid-cols-2 gap-8">
-                        {service.detailedContent.benefits.map((benefit, idx) => (
-                            <motion.div
-                                key={idx}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                                className="bg-white rounded-2xl p-8 border-2 border-gray-100 hover:border-[#FFC436] transition-all hover:shadow-lg"
-                            >
-                                <div className="flex items-start gap-4">
-                                    <div className="flex-shrink-0 w-12 h-12 bg-black text-[#FFC436] rounded-full flex items-center justify-center font-black text-xl">
-                                        {idx + 1}
-                                    </div>
-                                    <div>
-                                        <h3 className="text-2xl font-black text-black mb-3">
-                                            {benefit.title}
-                                        </h3>
-                                        <p className="text-gray-700 leading-relaxed">
-                                            {benefit.description}
-                                        </p>
-                                    </div>
+                        <div className="grid md:grid-cols-2 gap-8 my-10 not-prose">
+                            {detailedContent.benefits.map((benefit, idx) => (
+                                <div key={idx} className="p-6 bg-gray-50 dark:bg-[#111] rounded-xl border border-gray-100 dark:border-gray-800 hover:border-[#FFC436] transition-colors">
+                                    <h3 className="text-xl font-bold mb-3 text-[#D62828] font-serif">{benefit.title}</h3>
+                                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-base">{benefit.description}</p>
                                 </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </div>
+                            ))}
+                        </div>
 
-            {/* Process Section */}
-            <div className="py-20 bg-white">
-                <div className="max-w-7xl mx-auto px-6">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="text-center mb-16"
-                    >
-                        <h2 className="text-4xl md:text-5xl font-black text-black mb-4">
+                        {/* Process Section */}
+                        <h2 className="text-3xl font-black text-black dark:text-white mt-20 mb-8 font-sans border-l-4 border-[#FFC436] pl-4">
                             Our Process
                         </h2>
-                        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                            A streamlined approach to excellence
-                        </p>
-                    </motion.div>
 
-                    <div className="grid md:grid-cols-3 gap-6">
-                        {service.detailedContent.process.map((step, idx) => (
-                            <motion.div
-                                key={idx}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                                className="relative group h-full"
-                            >
-                                <div className="absolute inset-0 bg-black rounded-2xl translate-x-1 translate-y-1 group-hover:translate-x-3 group-hover:translate-y-3 transition-transform duration-300"></div>
-                                <div className="relative border-2 border-black rounded-2xl p-8 bg-white transition-transform duration-300 group-hover:-translate-x-1 group-hover:-translate-y-1 h-full min-h-[180px] flex flex-col justify-center">
-                                    <div className="text-5xl font-black text-[#FFC436] mb-3 select-none">
-                                        {(idx + 1).toString().padStart(2, '0')}
-                                    </div>
-                                    <p className="text-xl font-black text-black leading-tight tracking-tight">
+                        <div className="not-prose space-y-4 mb-16">
+                            {detailedContent.process.map((step, idx) => (
+                                <div key={idx} className="flex items-center gap-4 group">
+                                    <p className="font-serif text-lg text-gray-900 dark:text-gray-100 font-medium text-right">
                                         {step}
                                     </p>
+                                    <div className="h-px bg-gray-200 dark:bg-gray-800 flex-grow group-hover:bg-[#FFC436] transition-colors"></div>
+                                    <div className="w-12 h-12 flex-shrink-0 bg-black dark:bg-white text-white dark:text-black rounded-full flex items-center justify-center font-bold font-sans group-hover:bg-[#FFC436] transition-colors">
+                                        {idx + 1}
+                                    </div>
                                 </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </div>
+                            ))}
+                        </div>
 
-            {/* CTA Section */}
-            <div className="bg-black text-white py-20">
-                <div className="max-w-4xl mx-auto px-6 text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                    >
-                        <h2 className="text-4xl md:text-5xl font-black mb-6">
-                            Ready to Get Started?
-                        </h2>
-                        <p className="text-xl text-gray-300 mb-10 leading-relaxed">
-                            Let's discuss how we can elevate your coffee business together.
-                        </p>
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <button className="px-10 py-5 bg-[#FFC436] text-black font-black rounded-full hover:bg-white transition-all duration-300 shadow-2xl text-lg">
-                                GET IN TOUCH
-                            </button>
-                            <button
-                                onClick={() => navigate('/services')}
-                                className="px-10 py-5 bg-transparent border-2 border-white text-white font-black rounded-full hover:bg-white hover:text-black transition-all duration-300 text-lg"
-                            >
-                                VIEW ALL SERVICES
+                    </div>
+
+                    {/* CTA / Contact Card */}
+                    <div className="mt-20">
+                        <div className="bg-black rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl overflow-hidden relative">
+                            {/* Decorative glow */}
+                            <div className="absolute top-0 left-0 w-2 h-full bg-[#FFC436]" />
+                            <div className="absolute -right-10 -top-10 w-32 h-32 bg-[#D62828] blur-[80px] opacity-20" />
+
+                            <div className="relative z-10 text-center sm:text-left">
+                                <h4 className="text-xl sm:text-2xl font-black text-white uppercase tracking-widest mb-2" style={{ fontFamily: '"Orbitron", sans-serif' }}>
+                                    Partner With Us
+                                </h4>
+                                <p className="text-gray-400 text-sm">Start your journey with Derara Coffee today.</p>
+                            </div>
+
+                            <button className="relative z-10 px-8 py-4 bg-[#FFC436] text-black font-bold rounded-full hover:bg-white transition-all duration-300 shadow-lg transform hover:scale-105">
+                                GET STARTED
                             </button>
                         </div>
-                    </motion.div>
+                    </div>
+
                 </div>
+            </article>
+
+            {/* Bottom Navigation */}
+            <div className="flex justify-center mt-20">
+                <button
+                    onClick={() => navigate('/services')}
+                    className="group flex items-center gap-3 px-10 py-5 bg-black dark:bg-[#D62828] text-white rounded-full font-bold text-lg hover:shadow-2xl hover:shadow-[#D62828]/30 transition-all duration-300"
+                >
+                    <svg className="w-6 h-6 transform group-hover:-translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    View All Services
+                </button>
             </div>
+
         </div>
     );
 }
