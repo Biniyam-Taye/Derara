@@ -36,44 +36,47 @@ const BlogCards = ({ blogs }) => {
 
             <div className="grid lg:grid-cols-2 lg:gap-y-16 gap-10">
                 {finalPosts.map((post) => {
-                     // Normalize
-                     const isDynamic = !!post._id; 
-                     const title = isDynamic ? post.title : (post.smallTitle || post.title);
-                     const description = isDynamic ? post.description : (post.smallDescription || post.description);
-                     const imgSrc = isDynamic ? post.image : (post.smallImgSrc || post.imgSrc);
-                     const href = isDynamic ? '#' : post.href;
-                    
-                     return (
-                    <a
-                        key={post.id || post._id}
-                        className="group block rounded-xl overflow-hidden"
-                        href={href}
-                    >
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
-                            <div className="shrink-0 relative rounded-xl overflow-hidden w-full sm:w-56 h-44">
-                                <img
-                                    className="group-hover:scale-105 transition-transform duration-500 object-cover w-full h-full"
-                                    src={imgSrc}
-                                    alt={title}
-                                />
+                    // Normalize
+                    const isDynamic = !!post._id;
+                    const title = isDynamic ? post.title : (post.smallTitle || post.title);
+                    const description = isDynamic ? post.description : (post.smallDescription || post.description);
+                    const imgSrc = isDynamic ? post.image : (post.smallImgSrc || post.imgSrc);
+                    const id = post.id || post._id;
+                    const href = `/blog/${id}`;
+
+                    return (
+                        <a
+                            key={post.id || post._id}
+                            className="group block rounded-2xl overflow-hidden bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/10 p-5 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] dark:hover:shadow-[0_20px_40px_-15px_rgba(255,196,54,0.1)]"
+                            href={href}
+                        >
+                            <div className="flex flex-col sm:flex-row gap-5 items-start">
+                                <div className="shrink-0 relative rounded-xl overflow-hidden w-full sm:w-56 h-48">
+                                    <img
+                                        className="group-hover:scale-110 transition-transform duration-500 object-cover w-full h-full"
+                                        src={imgSrc}
+                                        alt={title}
+                                    />
+                                    <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300" />
+                                </div>
+
+                                <div className="grow pt-2">
+                                    <h3 className="text-xl font-bold text-[#2D1B13] dark:text-white group-hover:text-[#D62828] transition-colors line-clamp-2 leading-tight font-serif">
+                                        {title}
+                                    </h3>
+
+                                    <p className="mt-3 text-sm text-gray-600 dark:text-gray-400 font-medium leading-relaxed line-clamp-3">
+                                        {description}
+                                    </p>
+
+                                    <p className="mt-4 inline-flex items-center gap-x-2 text-xs font-black text-[#D62828] uppercase tracking-widest group-hover:underline underline-offset-4">
+                                        Read More {ReadMoreArrow}
+                                    </p>
+                                </div>
                             </div>
-
-                            <div className="grow">
-                                <h3 className="text-lg font-bold text-[#2D1B13] dark:text-white group-hover:text-gray-600 dark:group-hover:text-gray-400 transition-colors line-clamp-2">
-                                    {title}
-                                </h3>
-
-                                <p className="mt-3 text-base text-gray-700 dark:text-gray-300 font-medium leading-relaxed border-l-2 border-black dark:border-white pl-3 line-clamp-3">
-                                    {description}
-                                </p>
-
-                                <p className="mt-4 inline-flex items-center gap-x-1 text-sm text-[#D62828] font-bold uppercase tracking-wider group-hover:text-black dark:group-hover:text-white transition-colors">
-                                    Read more {ReadMoreArrow}
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                )})}
+                        </a>
+                    )
+                })}
             </div>
         </div>
 
