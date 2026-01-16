@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { 
-  Sparkles, 
-  Leaf, 
-  Link as LinkIcon, 
-  Ship, 
-  CheckCircle, 
-  Target, 
-  Globe, 
+import {
+  Sparkles,
+  Leaf,
+  Link as LinkIcon,
+  Ship,
+  CheckCircle,
+  Target,
+  Globe,
   Award,
-  ChevronRight
+  ChevronRight,
+  Users
 } from "lucide-react";
 import DeraraImage from "../../assets/10001.jpg";
 import logistics from "../../assets/logistics.jpg";
 import exemplary from "../../assets/exemplery.jpg";
 import integrity from "../../assets/integrity.jpg";
 import { Link, useNavigate } from "react-router-dom";
-import { useUser, useClerk } from "@clerk/clerk-react"; 
+import { useUser, useClerk } from "@clerk/clerk-react";
 
 const About = () => {
   const { isSignedIn } = useUser();
@@ -34,11 +35,11 @@ const About = () => {
   useEffect(() => {
     if (aboutData?.sliderImages && aboutData.sliderImages.length > 0) {
       const interval = setInterval(() => {
-        setCurrentSlideIndex((prevIndex) => 
+        setCurrentSlideIndex((prevIndex) =>
           (prevIndex + 1) % aboutData.sliderImages.length
         );
       }, 3000);
-      
+
       return () => clearInterval(interval);
     }
   }, [aboutData]);
@@ -61,19 +62,8 @@ const About = () => {
     transition: { duration: 0.6 }
   };
 
-  // Default Fallback Data (Static)
-  const defaultDesc = "With over a decade of dedication to the Ethiopian coffee landscape, Mr. Tekle T founded Derara with a single mission: to provide a direct, ethical bridge between the high-altitude forests of his homeland and the global specialty market.\n\nHis deep-rooted respect for the soil and the people who toil upon it ensures that every bean we export carries the true spirit of Ethiopia.";
-  const defaultQuote = "Coffee isn't just a commodity to us; it's the lifeblood of our culture and the standard of our excellence.";
-  
-  const displayData = aboutData || {
-    name: "Mr. Tekle T",
-    role: "Founder & CEO",
-    title: "General Manager", 
-    image: DeraraImage,
-    quote: defaultQuote,
-    description: defaultDesc,
-    tagline: "Authentic Visionary" 
-  };
+  // No static fallback. If no data from DB, we handle the empty state INLINE for the Founder section.
+  const displayData = aboutData;
 
   return (
     <div className="Playfair Display relative min-h-screen bg-[#FDFCF8] dark:bg-[#0a0a0a] text-gray-900 dark:text-white selection:bg-red-500/30 overflow-hidden">
@@ -84,8 +74,8 @@ const About = () => {
         <div className="absolute -bottom-[10%] left-[10%] w-[600px] h-[600px] bg-green-200/30 dark:bg-green-900/10 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen opacity-70 animate-blob animation-delay-4000" />
       </div>
 
-      {/* ☕ Hero Section */}
-      <section className="relative w-full min-h-screen flex items-center justify-center text-center overflow-hidden pb-20">
+      {/* ☕ Hero Section - ALWAYS VISIBLE */}
+      <section className="relative w-full h-[85vh] flex items-center justify-center text-center overflow-hidden">
         {/* Background Image with a rich overlay */}
         <img
           src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1920&q=80"
@@ -95,29 +85,29 @@ const About = () => {
         <div className="absolute inset-0 bg-black/50"></div>
 
         <div className="relative z-10 max-w-5xl px-4 pt-32 md:pt-36 mx-auto text-center">
-          <h1 className="text-3xl md:text-5xl lg:text-7xl font-black mb-6 tracking-wider leading-tight uppercase font-['Orbitron']">
+          <h1 className="text-4xl md:text-5xl lg:text-7xl font-black mb-6 tracking-tight leading-snug">
             <span className="text-white drop-shadow-lg">Delivering</span> <span className="text-white/90 drop-shadow-lg">The World’s Finest</span>
             <br className="block md:hidden" />
-            <span className="block mt-2 text-[#A37D5C] drop-shadow-[0_2px_10px_rgba(163,125,92,0.5)]">Ethiopian Arabica</span>
-            <span className="text-white drop-shadow-lg">Coffee</span>
+            <span className="block mt-2 text-[#A37D5C]">Ethiopian Arabica</span>
+            <span className="text-white drop-shadow-lg"> Coffee</span>
           </h1>
-          <p className="text-sm md:text-2xl text-gray-200 font-bold mb-10 max-w-2xl mx-auto shadow-black/20 text-shadow-sm font-outfit tracking-wide">
+          <p className="text-xl md:text-2xl text-white/90 font-bold mb-8 max-w-2xl mx-auto shadow-black/20 text-shadow-sm">
             From the birthplace of coffee to global markets — rooted in
             heritage, crafted with precision.
           </p>
 
           <button
             onClick={() => {
-                if (isSignedIn) {
-                    navigate('/dashboard');
-                } else {
-                    openSignIn({
-                        afterSignInUrl: '/dashboard',
-                        redirectUrl: '/dashboard'
-                    });
-                }
+              if (isSignedIn) {
+                navigate('/dashboard');
+              } else {
+                openSignIn({
+                  afterSignInUrl: '/dashboard',
+                  redirectUrl: '/dashboard'
+                });
+              }
             }}
-            className="inline-block bg-[#A37D5C] text-white text-lg font-bold px-12 py-4 rounded-full shadow-[0_10px_30px_rgba(163,125,92,0.4)] transition duration-300 ease-in-out hover:bg-white hover:text-[#A37D5C] transform hover:scale-105 uppercase tracking-widest font-outfit border-2 border-[#A37D5C] backdrop-blur-sm"
+            className="inline-block mt-4 bg-[#2D543F]  text-white text-lg font-semibold px-12 py-4 rounded-full shadow-2xl transition duration-300 ease-in-out hover:bg-[#A37D5C] transform hover:scale-105"
           >
             Request a Quote
           </button>
@@ -125,147 +115,146 @@ const About = () => {
         {/* Bottom Fade Transition */}
         <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-b from-transparent to-[#FDFCF8] dark:to-[#0a0a0a] z-20"></div>
       </section>
-      
-      {/* 🎯 Founder & Visionary Section - Elevated Style */}
-      <section className="relative z-10 bg-[#FDFCF8] dark:bg-black/20 pt-32 pb-0 px-6 md:px-20 border-b border-gray-100 dark:border-white/5 overflow-hidden">
+
+      {/* 🎯 Founder & Visionary Section - DATA DRIVEN */}
+      <section className={!displayData ? "hidden" : "relative z-10 bg-[#FDFCF8] dark:bg-black/20 py-32 px-6 md:px-20 border-b border-gray-100 dark:border-white/5 overflow-hidden"}>
         {/* Background Decorative Blobs */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-amber-100/30 dark:bg-amber-900/5 rounded-full blur-[120px] -z-10 translate-x-1/2 -translate-y-1/2" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-orange-100/20 dark:bg-orange-900/5 rounded-full blur-[100px] -z-10 -translate-x-1/2 translate-y-1/2" />
 
         <div className="max-w-7xl mx-auto">
-          {/* Meet the Founder Block */}
-          <div className="relative grid lg:grid-cols-2 gap-16 items-center">
-            {/* Image Column with Gallery Style */}
-            <motion.div 
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="relative"
-            >
-              {/* Title & Name - Moved to Top */}
-              <div className="mb-10 pl-6 border-l-4 border-amber-500">
-                <div className="inline-block px-4 py-1.5 bg-[#3B2E24] text-amber-400 text-[10px] font-black uppercase tracking-[0.4em] rounded-sm mb-4">
-                  {displayData.role}
+          {displayData && (
+            <div className="relative grid lg:grid-cols-2 gap-16 items-center">
+              {/* Image Column with Gallery Style */}
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="relative"
+              >
+                {/* Title & Name - Moved to Top (Upstream Style) */}
+                <div className="mb-10 pl-6 border-l-4 border-amber-500">
+                  <div className="inline-block px-4 py-1.5 bg-[#3B2E24] text-amber-400 text-[10px] font-black uppercase tracking-[0.4em] rounded-sm mb-4">
+                    {displayData.role}
+                  </div>
+                  <h2 className="text-4xl md:text-5xl font-black text-[#3B2E24] dark:text-white leading-none font-serif tracking-tight">
+                    {displayData.name}
+                  </h2>
                 </div>
-                <h2 className="text-4xl md:text-5xl font-black text-[#3B2E24] dark:text-white leading-none font-serif tracking-tight">
-                  {displayData.name}
-                </h2>
-              </div>
 
-              <div className="relative group perspective-1000">
-                {/* Main Image Container */}
-                <motion.div 
-                  whileHover={{ rotateY: -5, rotateX: 5, scale: 1.02 }}
-                  className="relative aspect-[4/5] max-w-sm lg:max-w-lg mx-auto rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(59,46,36,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] z-10 border-8 border-white dark:border-white/10"
-                >
-                  {/* Display slider images if available, otherwise show main image */}
-                  {displayData.sliderImages && displayData.sliderImages.length > 0 ? (
-                    <>
-                      {displayData.sliderImages.map((imgUrl, idx) => (
-                        <img 
-                          key={idx}
-                          src={imgUrl} 
-                          alt={`${displayData.name} - ${idx + 1}`}
-                          className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-1000 ${
-                            idx === currentSlideIndex ? 'opacity-100' : 'opacity-0'
-                          }`}
-                        />
-                      ))}
-                      {/* Slider indicators */}
-                      <div className="absolute bottom-24 left-0 right-0 flex justify-center gap-2 z-20">
-                        {displayData.sliderImages.map((_, idx) => (
-                          <button
+                <div className="relative group perspective-1000">
+                  {/* Main Image Container */}
+                  <motion.div
+                    whileHover={{ rotateY: -5, rotateX: 5, scale: 1.02 }}
+                    className="relative aspect-[4/5] max-w-sm lg:max-w-lg mx-auto rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(59,46,36,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] z-10 border-8 border-white dark:border-white/10"
+                  >
+                    {/* Display slider images if available, otherwise show main image */}
+                    {displayData.sliderImages && displayData.sliderImages.length > 0 ? (
+                      <>
+                        {displayData.sliderImages.map((imgUrl, idx) => (
+                          <img
                             key={idx}
-                            onClick={() => setCurrentSlideIndex(idx)}
-                            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                              idx === currentSlideIndex 
-                                ? 'bg-white w-8' 
-                                : 'bg-white/50 hover:bg-white/75'
-                            }`}
-                            aria-label={`Go to slide ${idx + 1}`}
+                            src={imgUrl}
+                            alt={`${displayData.name} - ${idx + 1}`}
+                            className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-1000 ${idx === currentSlideIndex ? 'opacity-100' : 'opacity-0'
+                              }`}
                           />
                         ))}
-                      </div>
-                    </>
-                  ) : (
-                    <img 
-                      src={displayData.image} 
-                      alt={displayData.name}
-                      className="w-full h-full object-cover object-top transition-all duration-700"
-                    />
-                  )}
-                  {/* Smooth Golden Overlay on Hover */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#3B2E24]/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
-                  
-                  {/* Floating ID Badge Style at bottom of image */}
-                  <div className="absolute bottom-8 left-8 right-8 p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                    <p className="text-white/70 text-xs font-bold uppercase tracking-widest mb-1">{displayData.tagline || "Authentic Visionary"}</p>
-                    <p className="text-white text-lg font-bold">Rooted in Heritage</p>
-                  </div>
-                </motion.div>
+                        {/* Slider indicators */}
+                        <div className="absolute bottom-24 left-0 right-0 flex justify-center gap-2 z-20">
+                          {displayData.sliderImages.map((_, idx) => (
+                            <button
+                              key={idx}
+                              onClick={() => setCurrentSlideIndex(idx)}
+                              className={`w-2 h-2 rounded-full transition-all duration-300 ${idx === currentSlideIndex
+                                  ? 'bg-white w-8'
+                                  : 'bg-white/50 hover:bg-white/75'
+                                }`}
+                              aria-label={`Go to slide ${idx + 1}`}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <img
+                        src={displayData.image}
+                        alt={displayData.name}
+                        className="w-full h-full object-cover object-top transition-all duration-700"
+                      />
+                    )}
+                    {/* Smooth Golden Overlay on Hover */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#3B2E24]/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
 
-                {/* Decorative Frames & Blobs */}
-                {/* <div className="absolute -inset-4 border-2 border-[#A37D5C]/20 rounded-[3rem] -z-10 animate-pulse" /> */}
-                <div className="absolute -top-12 -left-12 w-48 h-48 bg-amber-400/10 rounded-full blur-3xl -z-20" />
-                <div className="absolute -bottom-12 -right-12 w-64 h-64 bg-[#3B2E24]/5 rounded-full blur-3xl -z-20" />
-              </div>
-            </motion.div>
+                    {/* Floating ID Badge Style at bottom of image */}
+                    <div className="absolute bottom-8 left-8 right-8 p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                      <p className="text-white/70 text-xs font-bold uppercase tracking-widest mb-1">{displayData.tagline || "Authentic Visionary"}</p>
+                      <p className="text-white text-lg font-bold">Rooted in Heritage</p>
+                    </div>
+                  </motion.div>
 
-            {/* Content Column with Refined Typography */}
-            <motion.div 
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="relative space-y-10 lg:pl-10"
-            >
-              {/* Quote Block with Aesthetic Background */}
-              <div className="relative p-10 bg-white dark:bg-white/5 rounded-[2rem] shadow-sm border border-amber-100 dark:border-white/10 overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full -translate-y-1/2 translate-x-1/2" />
-                <span className="absolute top-4 left-6 text-7xl font-serif text-amber-500/20">"</span>
-                
-                <p className="relative z-10 text-2xl md:text-3xl text-[#3B2E24] dark:text-gray-100 font-medium leading-relaxed italic font-serif">
-                  {displayData.quote}
-                </p>
-              </div>
+                  {/* Decorative Frames & Blobs */}
+                  {/* <div className="absolute -inset-4 border-2 border-[#A37D5C]/20 rounded-[3rem] -z-10 animate-pulse" /> */}
+                  <div className="absolute -top-12 -left-12 w-48 h-48 bg-amber-400/10 rounded-full blur-3xl -z-20" />
+                  <div className="absolute -bottom-12 -right-12 w-64 h-64 bg-[#3B2E24]/5 rounded-full blur-3xl -z-20" />
+                </div>
+              </motion.div>
 
-              {/* Main Text Content */}
-              <div className="space-y-6 text-lg text-gray-600 dark:text-gray-300">
-                <p className="font-semibold leading-relaxed whitespace-pre-line">
-                  {displayData.description}
-                </p>
-              </div>
+              {/* Content Column with Refined Typography */}
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="relative space-y-10 lg:pl-10"
+              >
+                {/* Quote Block with Aesthetic Background */}
+                <div className="relative p-10 bg-white dark:bg-white/5 rounded-[2rem] shadow-sm border border-amber-100 dark:border-white/10 overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+                  <span className="absolute top-4 left-6 text-7xl font-serif text-amber-500/20">"</span>
 
-              {/* Signature / Official Stamp Look */}
-              <div className="flex items-center gap-6 pt-6">
-                <div className="text-center">
-                  <span className="block text-4xl md:text-5xl text-[#3B2E24] dark:text-amber-500 font-serif italic opacity-90 tracking-tighter hover:scale-105 transition-transform cursor-default">
-                    {displayData.name.split(' ').pop()} 
-                  </span>
-                  <div className="h-0.5 w-full bg-gradient-to-r from-transparent via-[#A37D5C] to-transparent mt-1" />
-                  <p className="text-[10px] font-black text-amber-600 uppercase tracking-[0.5em] mt-3">
-                    {displayData.role}
+                  <p className="relative z-10 text-2xl md:text-3xl text-[#3B2E24] dark:text-gray-100 font-medium leading-relaxed italic font-serif">
+                    {displayData.quote}
                   </p>
                 </div>
-                
-                {/* Visual Seal/Stamp */}
-                <div className="hidden sm:flex w-24 h-24 rounded-full border-2 border-dashed border-amber-500/30 items-center justify-center rotate-12">
-                  <span className="text-[8px] font-black text-amber-600/40 text-center uppercase tracking-tighter">
-                    Official<br/>Founder<br/>Seal
-                  </span>
+
+                {/* Main Text Content */}
+                <div className="space-y-6 text-lg text-gray-600 dark:text-gray-300">
+                  <p className="font-semibold leading-relaxed whitespace-pre-line">
+                    {displayData.description}
+                  </p>
                 </div>
-              </div>
-            </motion.div>
-          </div>
+
+                {/* Signature / Official Stamp Look */}
+                <div className="flex items-center gap-6 pt-6">
+                  <div className="text-center">
+                    <span className="block text-4xl md:text-5xl text-[#3B2E24] dark:text-amber-500 font-serif italic opacity-90 tracking-tighter hover:scale-105 transition-transform cursor-default">
+                      {displayData.name ? displayData.name.split(' ').pop() : ''}
+                    </span>
+                    <div className="h-0.5 w-full bg-gradient-to-r from-transparent via-[#A37D5C] to-transparent mt-1" />
+                    <p className="text-[10px] font-black text-amber-600 uppercase tracking-[0.5em] mt-3">
+                      {displayData.role}
+                    </p>
+                  </div>
+
+                  {/* Visual Seal/Stamp */}
+                  <div className="hidden sm:flex w-24 h-24 rounded-full border-2 border-dashed border-amber-500/30 items-center justify-center rotate-12">
+                    <span className="text-[8px] font-black text-amber-600/40 text-center uppercase tracking-tighter">
+                      Official<br />Founder<br />Seal
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          )}
         </div>
       </section>
 
       {/* 📜 Company Overview & Mission - Redesigned for Premium Impact */}
       <section className="relative pt-10 pb-10 md:pb-32 bg-[#FDFCF8] dark:bg-[#0a0a0a] overflow-hidden">
         <div className="absolute top-1/2 left-0 w-[800px] h-[800px] bg-red-50/50 dark:bg-red-900/5 rounded-full blur-[150px] -translate-x-1/2 -translate-y-1/2 -z-0" />
-        
+
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -277,7 +266,7 @@ const About = () => {
                   Who We Are
                 </h2>
               </div>
-              
+
               <div className="space-y-6 text-xl text-[#3B2E24] dark:text-gray-300 leading-relaxed font-medium">
                 <p className="border-l-4 border-amber-500 pl-8 py-2">
                   We are a global Ethiopian coffee export company deeply committed
@@ -296,14 +285,14 @@ const About = () => {
             </motion.div>
 
             {/* Floating Mission Card */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               className="relative p-12 bg-white dark:bg-[#3B2E24] rounded-[3rem] shadow-2xl text-[#3B2E24] dark:text-white border border-gray-100 dark:border-none overflow-hidden group"
             >
               <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl group-hover:scale-125 transition-transform duration-700" />
-              
+
               <h3 className="text-3xl font-serif italic mb-10 text-amber-600 dark:text-amber-400">Our Sacred Commitment</h3>
               <ul className="space-y-8">
                 {[
@@ -330,7 +319,7 @@ const About = () => {
       {/* 🌟 Values Section - Premium Cards */}
       <section className="relative z-10 bg-white dark:bg-[#050505] py-10 md:py-32 px-6 md:px-20 border-y border-gray-100 dark:border-white/5">
         <div className="max-w-7xl mx-auto">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             className="text-center mb-24"
@@ -343,32 +332,32 @@ const About = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { 
+              {
                 id: "01",
-                title: "Exemplary Quality Standards", 
-                desc: "Every lot undergoes stringent Q-Grade verification by certified experts, ensuring only defect-free, high-scoring beans are approved for global distribution.", 
+                title: "Exemplary Quality Standards",
+                desc: "Every lot undergoes stringent Q-Grade verification by certified experts, ensuring only defect-free, high-scoring beans are approved for global distribution.",
                 image: exemplary
               },
-              { 
+              {
                 id: "02",
-                title: "Sustainable Integrity", 
-                desc: "We drive community prosperity through ethical sourcing models that prioritize direct trade equity and regenerative agricultural practices.", 
+                title: "Sustainable Integrity",
+                desc: "We drive community prosperity through ethical sourcing models that prioritize direct trade equity and regenerative agricultural practices.",
                 image: integrity
               },
-              { 
+              {
                 id: "03",
-                title: "Transparent Provenance", 
-                desc: "Our integrated supply chain provides verifiable traceability from the washing station to the final shipment, guaranteeing authentic origin assurance.", 
+                title: "Transparent Provenance",
+                desc: "Our integrated supply chain provides verifiable traceability from the washing station to the final shipment, guaranteeing authentic origin assurance.",
                 image: "https://images.unsplash.com/photo-1610632380989-680fe40816c6?auto=format&fit=crop&w=800&q=80"
               },
-              { 
+              {
                 id: "04",
-                title: "Precision Logistics", 
-                desc: "Leveraging robust global networks, we ensure temperature-controlled, timely delivery of your shipments, preserving freshness from port to warehouse.", 
+                title: "Precision Logistics",
+                desc: "Leveraging robust global networks, we ensure temperature-controlled, timely delivery of your shipments, preserving freshness from port to warehouse.",
                 image: logistics
               }
             ].map((value, idx) => (
-              <motion.div 
+              <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -378,10 +367,10 @@ const About = () => {
               >
                 {/* 🖼️ Card Image */}
                 <div className="relative h-64 overflow-hidden">
-                  <img 
-                    src={value.image} 
-                    alt={value.title} 
-                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
+                  <img
+                    src={value.image}
+                    alt={value.title}
+                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                   />
                   {/* Subtle white shine instead of black gradient */}
                   <div className="absolute inset-0 bg-gradient-to-t from-white/10 to-transparent opacity-50" />
@@ -405,8 +394,8 @@ const About = () => {
         </div>
       </section>
 
-     {/* 🗺️ Coffee Regions - Legacy of Flavor */}
-    
+      {/* 🗺️ Coffee Regions - Legacy of Flavor */}
+
       <section className="hidden md:block relative py-32 px-6 md:px-20 bg-[#FDFCF8] dark:bg-[#0a0a0a] overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
@@ -418,13 +407,13 @@ const About = () => {
             >
               <span className="text-amber-600 font-black uppercase tracking-[0.5em] text-[10px] block">Regional Significance</span>
               <h2 className="text-5xl md:text-6xl font-black text-[#3B2E24] dark:text-white font-serif leading-none">
-                Regional <br/><span className="text-[#A37D5C]">Flavor Signatures</span>
+                Regional <br /><span className="text-[#A37D5C]">Flavor Signatures</span>
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-400 font-medium leading-relaxed">
                 Ethiopia's vast landscape offers a kaleidoscope of profiles. Each region we source from carries its own unique flavor profile—ranging from bright, wild floral notes to deep, complex winey undertones.
               </p>
             </motion.div>
-            
+
             {/* Traditional Ethiopian Coffee Ceremony Image */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
@@ -432,8 +421,8 @@ const About = () => {
               viewport={{ once: true }}
               className="relative aspect-video rounded-[3rem] overflow-hidden shadow-2xl bg-gray-100"
             >
-              <img 
-                src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=80" 
+              <img
+                src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=80"
                 alt="Traditional Ethiopian Coffee Ceremony with Jebena"
                 className="w-full h-full object-cover"
               />
@@ -451,7 +440,7 @@ const About = () => {
               { region: "Guji", process: "Natural", desc: "Pronounced tropical fruit, ripe red berry sweetness, chocolate undertones.", color: "red" },
               { region: "Harrar", process: "Natural (Dry)", desc: "Distinctive winey acidity, intense wild berry, classic sun-dried spice.", color: "brown" }
             ].map((item, idx) => (
-              <motion.div 
+              <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { blogPosts } from "../../assets/assets";
 
 const BlogCards = ({ blogs }) => {
-    // Use API data if available, otherwise use static fallback.
-    const finalPosts = (blogs && blogs.length > 0) ? blogs : blogPosts.slice(3);
+    // Use API data if available, otherwise empty.
+    const finalPosts = blogs || [];
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 6;
 
