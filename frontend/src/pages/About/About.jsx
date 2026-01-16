@@ -12,6 +12,9 @@ import {
   ChevronRight
 } from "lucide-react";
 import DeraraImage from "../../assets/10001.jpg";
+import logistics from "../../assets/logistics.jpg";
+import exemplary from "../../assets/exemplery.jpg";
+import integrity from "../../assets/integrity.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser, useClerk } from "@clerk/clerk-react"; 
 
@@ -340,10 +343,30 @@ const About = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { icon: Sparkles, title: "Unmatched Quality", desc: "Rigorous SCA-grading and moisture control for flavor preservation.", color: "amber" },
-              { icon: Leaf, title: "True Sustainability", desc: "Supporting bio-diverse farms and equitable returns for all partners.", color: "green" },
-              { icon: LinkIcon, title: "Seed-to-Ship", desc: "Complete lot separation and detailed provenance for every buyer.", color: "blue" },
-              { icon: Ship, title: "Global Reliability", desc: "Proven logistics and guaranteed on-time delivery worldwide.", color: "red" }
+              { 
+                id: "01",
+                title: "Exemplary Quality Standards", 
+                desc: "Every lot undergoes stringent Q-Grade verification by certified experts, ensuring only defect-free, high-scoring beans are approved for global distribution.", 
+                image: exemplary
+              },
+              { 
+                id: "02",
+                title: "Sustainable Integrity", 
+                desc: "We drive community prosperity through ethical sourcing models that prioritize direct trade equity and regenerative agricultural practices.", 
+                image: integrity
+              },
+              { 
+                id: "03",
+                title: "Transparent Provenance", 
+                desc: "Our integrated supply chain provides verifiable traceability from the washing station to the final shipment, guaranteeing authentic origin assurance.", 
+                image: "https://images.unsplash.com/photo-1610632380989-680fe40816c6?auto=format&fit=crop&w=800&q=80"
+              },
+              { 
+                id: "04",
+                title: "Precision Logistics", 
+                desc: "Leveraging robust global networks, we ensure temperature-controlled, timely delivery of your shipments, preserving freshness from port to warehouse.", 
+                image: logistics
+              }
             ].map((value, idx) => (
               <motion.div 
                 key={idx}
@@ -351,19 +374,31 @@ const About = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                className="group relative p-10 bg-[#FDFCF8] dark:bg-white/5 rounded-[2rem] border border-gray-100 dark:border-white/10 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden"
+                className="group relative flex flex-col bg-white dark:bg-white/5 rounded-[2.5rem] overflow-hidden shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-gray-100 dark:border-white/10"
               >
-                <div className={`absolute -top-12 -right-12 w-32 h-32 bg-${value.color}-500/5 rounded-full group-hover:scale-150 transition-transform duration-700`} />
-                <div className="relative z-10">
-                  <div className={`w-16 h-16 flex items-center justify-center bg-white dark:bg-white/10 rounded-2xl shadow-sm mb-8 group-hover:rotate-12 transition-transform`}>
-                    <value.icon className={`w-8 h-8 text-${value.color}-500`} />
+                {/* 🖼️ Card Image */}
+                <div className="relative h-64 overflow-hidden">
+                  <img 
+                    src={value.image} 
+                    alt={value.title} 
+                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
+                  />
+                  {/* Subtle white shine instead of black gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-white/10 to-transparent opacity-50" />
+                </div>
+
+                {/* 📝 Card Content */}
+                <div className="relative p-8 flex-1 flex flex-col">
+                  <div className="mb-4">
+                    <h3 className="text-2xl font-black text-[#3B2E24] dark:text-white font-serif leading-tight">
+                      {value.title}
+                    </h3>
                   </div>
-                  <h3 className="text-xl font-bold text-[#3B2E24] dark:text-white mb-4 font-serif">{value.title}</h3>
-                  <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed font-medium">
+
+                  <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed font-medium">
                     {value.desc}
                   </p>
                 </div>
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
               </motion.div>
             ))}
           </div>
