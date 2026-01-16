@@ -32,6 +32,8 @@ const seedData = async () => {
 
         console.log('Old data cleared...');
 
+        // NOTE: Seeding logic commented out to start with an empty database.
+        /*
         // 1. About Us (Founder Focused)
         await About.create({
             title: "Rooted in Heritage",
@@ -169,11 +171,12 @@ const seedData = async () => {
              { title: "Organic Certification", description: "Certified for handling and export of high-quality organic coffee.", image: "https://images.unsplash.com/photo-1621243804631-016f4c94fd65?q=80&w=1374" }
         ];
         await Certificate.insertMany(certificates);
+        */
 
-        console.log('Database seeded successfully!');
+        console.log('Database cleared (Seeding skipped)...');
         process.exit();
     } catch (error) {
-        console.error('Error seeding database:', error);
+        console.error('Error in seed script:', error);
         process.exit(1);
     }
 };

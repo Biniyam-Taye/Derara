@@ -51,7 +51,7 @@ const OurHistory = () => {
             </span>
           </h1>
           <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-lg font-outfit">
-            Founded in the heart of Ethiopia, we are on a mission to bring 
+            Founded in the heart of Ethiopia, we are on a mission to bring
             our rich heritage to every corner of the globe.
           </p>
         </div>
@@ -67,9 +67,8 @@ const OurHistory = () => {
               return (
                 <div
                   key={index}
-                  className={`flex flex-col md:flex-row items-center justify-between w-full md:mb-16 ${
-                    isEvent ? "md:flex-row-reverse" : ""
-                  }`}
+                  className={`flex flex-col md:flex-row items-center justify-between w-full md:mb-16 ${isEvent ? "md:flex-row-reverse" : ""
+                    }`}
                 >
                   {/* Image Side (Uses the previously empty spacer) */}
                   <div className="hidden md:block w-5/12 group mt-8">
@@ -83,7 +82,7 @@ const OurHistory = () => {
                     </div>
                   </div>
 
-                  {/* Icon/Dot on the Center Line */} 
+                  {/* Icon/Dot on the Center Line */}
                   <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 flex items-center justify-center w-12 h-12 rounded-full bg-red-600 shadow-[0_0_15px_rgba(220,38,38,0.5)] z-20 border-4 border-white dark:border-gray-900">
                     {item.icon}
                   </div>

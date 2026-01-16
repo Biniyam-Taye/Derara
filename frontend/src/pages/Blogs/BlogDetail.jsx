@@ -16,8 +16,8 @@ const BlogDetail = () => {
         const fetchBlog = async () => {
             setLoading(true);
             try {
-                // 1. Try to find in static assets first (for demo purposes, or prioritize API if preferred)
-                let foundBlog = blogPosts.find((p) => String(p.id) === id);
+                // 1. Static asset lookup disabled to honor "no data" request.
+                let foundBlog = null; // blogPosts.find((p) => String(p.id) === id);
 
                 // 2. If not found, try fetching from API (assuming API exists and supports get-by-id)
                 // Since the list endpoint is /ops/blogs, we might assume a detail endpoint /ops/blogs/:id exists.
