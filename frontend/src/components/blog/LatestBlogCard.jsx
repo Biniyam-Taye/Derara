@@ -74,7 +74,7 @@ export default function LatestBlog({ blogs }) {
 
                     {finalPosts.map((post, index) => {
                         // Normalize Data (Handle Backend vs Static)
-                        const isDynamic = !!post._id; 
+                        const isDynamic = !!post._id;
                         const title = post.title;
                         const description = post.description;
                         const imgSrc = isDynamic ? post.image : post.imgSrc;
@@ -86,78 +86,82 @@ export default function LatestBlog({ blogs }) {
                         const authorImg = isDynamic ? null : post.author?.imageUrl; // Backend doesn't have author image yet, or maybe user not entering it? Dashboard has 'image' for Post, but not Author avatar. Author is text input.
 
                         return (
-                        <motion.article
-                            key={post.id || post._id}
-                            initial={{ opacity: 0, y: 50 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.2 }}
-                            className="relative isolate flex flex-col justify-end rounded-2xl 
+                            <motion.article
+                                key={post.id || post._id}
+                                initial={{ opacity: 0, y: 50 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: index * 0.2 }}
+                                className="relative isolate flex flex-col justify-end rounded-2xl 
                          overflow-hidden bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80 group border-2 border-transparent hover:border-[#FFC436] transition-all duration-300 hover:shadow-2xl hover:shadow-[#FFC436]/20"
-                        >
-                            <img
-                                src={imgSrc}
-                                alt={title}
-                                className="absolute inset-0 -z-10 h-full w-full object-cover 
+                            >
+                                <img
+                                    src={imgSrc}
+                                    alt={title}
+                                    className="absolute inset-0 -z-10 h-full w-full object-cover 
                            transition-transform duration-500 group-hover:scale-105"
-                            />
+                                />
 
-                            <div className="absolute inset-0 -z-10 bg-gradient-to-t 
+                                <div className="absolute inset-0 -z-10 bg-gradient-to-t 
                               from-[#2D1B13] via-[#2D1B13]/80 to-transparent opacity-90 transition-all duration-500" />
 
-                            <div className="flex flex-wrap items-center text-sm text-white/90 font-medium">
-                                <time dateTime={date} className="mr-8 border-b-2 border-white pb-0.5">
-                                    {date}
-                                </time>
+                                <div className="flex flex-wrap items-center text-sm text-white/90 font-medium">
+                                    <time dateTime={date} className="mr-8 border-b-2 border-white pb-0.5">
+                                        {date}
+                                    </time>
 
-                                {categoryTitle && (
-                                    <a
-                                        href={categoryHref}
-                                        className="rounded-full bg-[#FFC436] px-3 py-1.5 text-black 
+                                    {categoryTitle && (
+                                        <a
+                                            href={categoryHref}
+                                            className="rounded-full bg-[#FFC436] px-3 py-1.5 text-black 
                                font-bold hover:bg-white hover:text-black transition-colors"
-                                    >
-                                        {categoryTitle}
-                                    </a>
-                                )}
-                            </div>
-
-                            <h3 className="mt-4 text-lg font-bold text-white group-hover:text-[#FFC436] transition-colors">
-                                <a href="#">
-                                    <span className="absolute inset-0" />
-                                    {title}
-                                </a>
-                            </h3>
-
-                            <p className="mt-2 text-base font-medium text-white shadow-black drop-shadow-md border-l-4 border-white pl-3 line-clamp-3">
-                                {description}
-                            </p>
-
-                            <div className="flex items-center gap-x-4 border-t border-gray-300 dark:border-gray-100/10 pt-4 mt-6">
-                                {authorImg ? (
-                                    <img
-                                        src={authorImg}
-                                        alt=""
-                                        className="h-10 w-10 rounded-full bg-gray-200 dark:bg-white/10"
-                                    />
-                                ) : (
-                                    <div className="h-10 w-10 rounded-full bg-[#FFC436] flex items-center justify-center text-black font-bold">
-                                        {authorName?.charAt(0)}
-                                    </div>
-                                )}
-                                <div className="text-sm leading-6">
-                                    <p className="font-semibold text-gray-900 dark:text-white">
-                                        <a href="#">
-                                            <span className="absolute inset-0" />
-                                            {authorName}
+                                        >
+                                            {categoryTitle}
                                         </a>
-                                    </p>
-                                    {authorRole && <p className="text-gray-700 dark:text-gray-300 font-medium dark:font-normal">{authorRole}</p>}
+                                    )}
                                 </div>
-                            </div>
-                        </motion.article>
-                    )})}
+
+                                <h3 className="mt-4 text-lg font-bold text-white group-hover:text-[#FFC436] transition-colors">
+                                    <a href={`/blog/${post.id || post._id}`}>
+                                        <span className="absolute inset-0" />
+                                        {title}
+                                    </a>
+                                </h3>
+
+                                <p className="mt-2 text-base font-medium text-white shadow-black drop-shadow-md border-l-4 border-white pl-3 line-clamp-3">
+                                    {description}
+                                </p>
+
+                                <div className="flex items-center gap-x-4 border-t border-gray-300 dark:border-gray-100/10 pt-4 mt-6">
+                                    {authorImg ? (
+                                        <img
+                                            src={authorImg}
+                                            alt=""
+                                            className="h-10 w-10 rounded-full bg-gray-200 dark:bg-white/10"
+                                        />
+                                    ) : (
+                                        <div className="h-10 w-10 rounded-full bg-[#FFC436] flex items-center justify-center text-black font-bold">
+                                            {authorName?.charAt(0)}
+                                        </div>
+                                    )}
+                                    <div className="text-sm leading-6">
+                                        <p className="font-semibold text-gray-900 dark:text-white">
+                                            <a href="#">
+                                                <span className="absolute inset-0" />
+                                                {authorName}
+                                            </a>
+                                        </p>
+                                        {authorRole && <p className="text-gray-700 dark:text-gray-300 font-medium dark:font-normal">{authorRole}</p>}
+                                    </div>
+                                </div>
+                            </motion.article>
+                        )
+                    })}
                 </div>
             </div>
+
+            {/* Bottom Fade Gradient to smooth transition to next section */}
+            <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-gray-50 dark:from-gray-900 to-transparent pointer-events-none"></div>
         </div>
     );
 }

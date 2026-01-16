@@ -6,6 +6,7 @@ import GalleryPage from "./pages/GalleryPage";
 import ServicesPage from "./pages/Services/Service";
 import LearnMore from "./pages/Services/LearnMore";
 import Blogs from "./pages/Blogs/Blog";
+import BlogDetail from "./pages/Blogs/BlogDetail";
 import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
 import AboutPage from "./pages/About/About";
@@ -29,8 +30,8 @@ const App = () => {
   const isDashboard = location.pathname.includes("dashboard");
 
   return (
-    <ClerkProvider 
-      publishableKey={clerkPubKey} 
+    <ClerkProvider
+      publishableKey={clerkPubKey}
       afterSignOutUrl="/"
       navigate={(to) => navigate(to)}
     >
@@ -46,6 +47,7 @@ const App = () => {
                   <Route path="/services" element={<ServicesPage />} />
                   <Route path="/services/:serviceSlug" element={<LearnMore />} />
                   <Route path="/blog" element={<Blogs />} />
+                  <Route path="/blog/:id" element={<BlogDetail />} />
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="/products" element={<Products />} />
 
