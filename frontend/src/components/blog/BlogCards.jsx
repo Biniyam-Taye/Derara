@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { blogPosts } from "../../assets/assets";
 
 const BlogCards = ({ blogs }) => {
-    // If blogs is null/undefined (initial load), use static fallback (excluding top 3).
-    // If blogs is [] (fetched empty), use empty array.
-    const finalPosts = blogs || blogPosts.slice(3);
+    // Use API data if available, otherwise use static fallback.
+    const finalPosts = (blogs && blogs.length > 0) ? blogs : blogPosts.slice(3);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 6;
+
+    // Logic for displaying current posts
+    const indexOfLastPost = currentPage * itemsPerPage;
+    const indexOfFirstPost = indexOfLastPost - itemsPerPage;
+    const currentPosts = finalPosts.slice(indexOfFirstPost, indexOfLastPost);
+    const totalPages = Math.ceil(finalPosts.length / itemsPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+        const element = document.getElementById('blog-cards-container');
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
     const ReadMoreArrow = (
         <svg
@@ -22,7 +37,7 @@ const BlogCards = ({ blogs }) => {
     );
 
     return (
-        <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 mx-auto">
+        <div id="blog-cards-container" className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 mx-auto">
 
             {/* Title */}
             <div className="text-center mb-12">
@@ -35,7 +50,7 @@ const BlogCards = ({ blogs }) => {
             </div>
 
             <div className="grid lg:grid-cols-2 lg:gap-y-16 gap-10">
-                {finalPosts.map((post) => {
+                {currentPosts.map((post) => {
                     // Normalize
                     const isDynamic = !!post._id;
                     const title = isDynamic ? post.title : (post.smallTitle || post.title);
@@ -78,8 +93,52 @@ const BlogCards = ({ blogs }) => {
                     )
                 })}
             </div>
-        </div>
 
+            {/* Pagination Controls */}
+            <div className="mt-16 flex justify-center items-center gap-2">
+                {/* Previous Button */}
+                <button
+                    onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                    disabled={currentPage === 1}
+                    className={`p-3 rounded-full border transition-all duration-300 ${currentPage === 1
+                        ? 'border-gray-300 text-gray-400 cursor-not-allowed dark:border-gray-700 dark:text-gray-600'
+                        : 'border-gray-300 text-gray-700 hover:bg-[#D62828] hover:text-white hover:border-[#D62828] dark:border-gray-600 dark:text-white'
+                        }`}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                    </svg>
+                </button>
+
+                {/* Page Numbers */}
+                {Array.from({ length: Math.max(1, totalPages) }, (_, i) => i + 1).map((number) => (
+                    <button
+                        key={number}
+                        onClick={() => handlePageChange(number)}
+                        className={`w-10 h-10 rounded-full font-bold text-sm transition-all duration-300 border ${currentPage === number
+                            ? 'bg-[#D62828] text-white border-[#D62828] shadow-lg shadow-red-500/30'
+                            : 'bg-transparent text-gray-700 border-gray-300 hover:border-[#D62828] hover:text-[#D62828] dark:text-white dark:border-gray-600'
+                            }`}
+                    >
+                        {number}
+                    </button>
+                ))}
+
+                {/* Next Button */}
+                <button
+                    onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                    disabled={currentPage === totalPages || totalPages === 0}
+                    className={`p-3 rounded-full border transition-all duration-300 ${currentPage === totalPages || totalPages === 0
+                        ? 'border-gray-300 text-gray-400 cursor-not-allowed dark:border-gray-700 dark:text-gray-600'
+                        : 'border-gray-300 text-gray-700 hover:bg-[#D62828] hover:text-white hover:border-[#D62828] dark:border-gray-600 dark:text-white'
+                        }`}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
+                </button>
+            </div>
+        </div>
     );
 };
 

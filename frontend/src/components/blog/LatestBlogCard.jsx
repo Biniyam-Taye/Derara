@@ -3,9 +3,9 @@ import { blogPosts } from "../../assets/assets";
 import { motion } from "framer-motion";
 
 export default function LatestBlog({ blogs }) {
-    // Check if blogs prop is provided (non-null). 
-    // If it is an array (even empty), we use it. If null/undefined, fallback to static.
-    const finalPosts = blogs || blogPosts.slice(0, 3);
+    // Check if blogs prop is provided and has items. 
+    // If null/undefined OR empty array, fallback to static.
+    const finalPosts = (blogs && blogs.length > 0) ? blogs : blogPosts.slice(0, 3);
 
     return (
         <div className="bg-white dark:bg-[#0a0a0a] py-24 sm:py-32 relative overflow-hidden transition-colors duration-300">
