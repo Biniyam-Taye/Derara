@@ -20,11 +20,25 @@ const About = () => {
   const { openSignIn } = useClerk();
   const navigate = useNavigate();
   const [aboutData, setAboutData] = useState(null);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     fetchAboutData();
   }, []);
+
+  // Auto-rotate slider images every 3 seconds
+  useEffect(() => {
+    if (aboutData?.sliderImages && aboutData.sliderImages.length > 0) {
+      const interval = setInterval(() => {
+        setCurrentSlideIndex((prevIndex) => 
+          (prevIndex + 1) % aboutData.sliderImages.length
+        );
+      }, 3000);
+      
+      return () => clearInterval(interval);
+    }
+  }, [aboutData]);
 
   const fetchAboutData = async () => {
     try {
@@ -45,11 +59,11 @@ const About = () => {
   };
 
   // Default Fallback Data (Static)
-  const defaultDesc = "With over a decade of dedication to the Ethiopian coffee landscape, Mr. Beri M founded Derara with a single mission: to provide a direct, ethical bridge between the high-altitude forests of his homeland and the global specialty market.\n\nHis deep-rooted respect for the soil and the people who toil upon it ensures that every bean we export carries the true spirit of Ethiopia.";
+  const defaultDesc = "With over a decade of dedication to the Ethiopian coffee landscape, Mr. Tekle T founded Derara with a single mission: to provide a direct, ethical bridge between the high-altitude forests of his homeland and the global specialty market.\n\nHis deep-rooted respect for the soil and the people who toil upon it ensures that every bean we export carries the true spirit of Ethiopia.";
   const defaultQuote = "Coffee isn't just a commodity to us; it's the lifeblood of our culture and the standard of our excellence.";
   
   const displayData = aboutData || {
-    name: "Mr. Beri M",
+    name: "Mr. Tekle T",
     role: "Founder & CEO",
     title: "General Manager", 
     image: DeraraImage,
@@ -141,11 +155,42 @@ const About = () => {
                   whileHover={{ rotateY: -5, rotateX: 5, scale: 1.02 }}
                   className="relative aspect-[4/5] max-w-sm lg:max-w-lg mx-auto rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(59,46,36,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] z-10 border-8 border-white dark:border-white/10"
                 >
-                  <img 
-                    src={displayData.image} 
-                    alt={displayData.name}
-                    className="w-full h-full object-cover object-top transition-all duration-700"
-                  />
+                  {/* Display slider images if available, otherwise show main image */}
+                  {displayData.sliderImages && displayData.sliderImages.length > 0 ? (
+                    <>
+                      {displayData.sliderImages.map((imgUrl, idx) => (
+                        <img 
+                          key={idx}
+                          src={imgUrl} 
+                          alt={`${displayData.name} - ${idx + 1}`}
+                          className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-1000 ${
+                            idx === currentSlideIndex ? 'opacity-100' : 'opacity-0'
+                          }`}
+                        />
+                      ))}
+                      {/* Slider indicators */}
+                      <div className="absolute bottom-24 left-0 right-0 flex justify-center gap-2 z-20">
+                        {displayData.sliderImages.map((_, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => setCurrentSlideIndex(idx)}
+                            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                              idx === currentSlideIndex 
+                                ? 'bg-white w-8' 
+                                : 'bg-white/50 hover:bg-white/75'
+                            }`}
+                            aria-label={`Go to slide ${idx + 1}`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <img 
+                      src={displayData.image} 
+                      alt={displayData.name}
+                      className="w-full h-full object-cover object-top transition-all duration-700"
+                    />
+                  )}
                   {/* Smooth Golden Overlay on Hover */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#3B2E24]/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
                   

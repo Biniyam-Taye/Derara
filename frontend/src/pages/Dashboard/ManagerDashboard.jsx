@@ -30,6 +30,7 @@ const ManagerDashboard = () => {
 
     const [socialLinks, setSocialLinks] = useState([{ platform: 'Facebook', url: '' }]);
     const [previews, setPreviews] = useState({});
+    const [sliderImageFiles, setSliderImageFiles] = useState([]);
     
     // Request Management State
     const [selectedRequest, setSelectedRequest] = useState(null);
@@ -113,7 +114,6 @@ const ManagerDashboard = () => {
         const formData = new FormData(e.target);
         
         // Handle File Uploads
-        // Handle File Uploads
         const fileFields = ['image', 'bentoImage'];
         for (const field of fileFields) {
             const file = formData.get(field);
@@ -133,6 +133,20 @@ const ManagerDashboard = () => {
             }
         }
 
+        // Handle multiple slider images for About section
+        if (contentSubTab === 'about' && sliderImageFiles.length > 0) {
+            try {
+                const uploadedUrls = await Promise.all(
+                    sliderImageFiles.map(file => uploadToCloudinary(file))
+                );
+                formData.set('sliderImages', JSON.stringify(uploadedUrls));
+            } catch (error) {
+                console.error("Slider images upload failed", error);
+                setMessage('Slider images upload failed');
+                return;
+            }
+        }
+
         let payload = {};
         
         if (contentSubTab === 'footer') {
@@ -149,6 +163,10 @@ const ManagerDashboard = () => {
             payload = Object.fromEntries(formData.entries());
              // Fix checkbox "on" value to boolean true
             if (payload.isFeatured === 'on') payload.isFeatured = true;
+            // Parse sliderImages JSON string back to array
+            if (payload.sliderImages) {
+                payload.sliderImages = JSON.parse(payload.sliderImages);
+            }
         }
         
         try {
@@ -228,6 +246,7 @@ const ManagerDashboard = () => {
         setEditingItem(null);
         setSocialLinks([{ platform: 'Facebook', url: '' }]);
         setPreviews({});
+        setSliderImageFiles([]);
     };
 
     const handleDeleteContent = async (id) => {
@@ -436,6 +455,54 @@ const ManagerDashboard = () => {
                                                     />
                                                 </div>
                                                 {editingItem?.image && !previews.image && <p className="text-[10px] text-gray-400 truncate text-center">Current: {editingItem.image.split('/').pop()}</p>}
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-xs font-bold text-gray-400 uppercase">Slider Images (Auto-rotate every 3 sec)</label>
+                                                <div className="relative group w-full min-h-32 bg-gray-50 dark:bg-gray-900/50 rounded-xl border-2 border-dashed border-gray-200 dark:border-gray-700 flex flex-col items-center justify-center p-4 hover:border-red-500 transition-colors">
+                                                    {sliderImageFiles.length > 0 || editingItem?.sliderImages?.length > 0 ? (
+                                                        <div className="w-full grid grid-cols-3 gap-2">
+                                                            {(sliderImageFiles.length > 0 ? sliderImageFiles : editingItem?.sliderImages || []).map((item, idx) => (
+                                                                <div key={idx} className="relative aspect-square rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
+                                                                    <img 
+                                                                        src={item instanceof File ? URL.createObjectURL(item) : item} 
+                                                                        className="w-full h-full object-cover" 
+                                                                        alt={`Slider ${idx + 1}`} 
+                                                                    />
+                                                                    <button
+                                                                        type="button"
+                                                                        onClick={() => {
+                                                                            if (sliderImageFiles.length > 0) {
+                                                                                setSliderImageFiles(prev => prev.filter((_, i) => i !== idx));
+                                                                            }
+                                                                        }}
+                                                                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                                                                    >
+                                                                        <X size={12} />
+                                                                    </button>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    ) : (
+                                                        <div className="text-gray-400 flex flex-col items-center gap-1">
+                                                            <ImageIcon size={24} />
+                                                            <span className="text-[10px] uppercase font-bold">Select Multiple Images</span>
+                                                        </div>
+                                                    )}
+                                                    <input 
+                                                        type="file" 
+                                                        multiple
+                                                        accept="image/*" 
+                                                        className="absolute inset-0 opacity-0 cursor-pointer z-10" 
+                                                        onChange={(e) => {
+                                                            if(e.target.files && e.target.files.length > 0) {
+                                                                setSliderImageFiles(Array.from(e.target.files));
+                                                            }
+                                                        }}
+                                                    />
+                                                </div>
+                                                {editingItem?.sliderImages?.length > 0 && sliderImageFiles.length === 0 && (
+                                                    <p className="text-[10px] text-gray-400 text-center">{editingItem.sliderImages.length} slider image(s) uploaded</p>
+                                                )}
                                             </div>
                                             <input name="tagline" defaultValue={editingItem?.tagline} placeholder="Tagline (optional)" className="w-full p-3.5 rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-transparent focus:border-red-500 dark:text-white outline-none text-sm" />
                                         </>
