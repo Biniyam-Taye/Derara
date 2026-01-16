@@ -11,6 +11,7 @@ const aboutSchema = mongoose.Schema(
     mission: { type: String },
     vision: { type: String },
     image: { type: String, required: true },
+    sliderImages: { type: [String], default: [] },
     isVisible: { type: Boolean, default: true },
     createdBy: { type: String },
   },

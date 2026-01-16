@@ -13,6 +13,9 @@ import {
   Users
 } from "lucide-react";
 import DeraraImage from "../../assets/10001.jpg";
+import logistics from "../../assets/logistics.jpg";
+import exemplary from "../../assets/exemplery.jpg";
+import integrity from "../../assets/integrity.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser, useClerk } from "@clerk/clerk-react";
 
@@ -21,11 +24,25 @@ const About = () => {
   const { openSignIn } = useClerk();
   const navigate = useNavigate();
   const [aboutData, setAboutData] = useState(null);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     fetchAboutData();
   }, []);
+
+  // Auto-rotate slider images every 3 seconds
+  useEffect(() => {
+    if (aboutData?.sliderImages && aboutData.sliderImages.length > 0) {
+      const interval = setInterval(() => {
+        setCurrentSlideIndex((prevIndex) =>
+          (prevIndex + 1) % aboutData.sliderImages.length
+        );
+      }, 3000);
+
+      return () => clearInterval(interval);
+    }
+  }, [aboutData]);
 
   const fetchAboutData = async () => {
     try {
@@ -65,12 +82,14 @@ const About = () => {
           alt="Ethiopian Coffee Highlands"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black opacity-30"></div>
+        <div className="absolute inset-0 bg-black/50"></div>
 
-        <div className="relative z-10 max-w-4xl px-6 pt-40 md:pt-0">
-          <h1 className="text-6xl md:text-5xl font-bold text-white mb-6 tracking-tight leading-snug">
-            Delivering the World’s Finest{" "}
-            <span className="text-[#A37D5C]">Ethiopian Arabica</span> Coffee
+        <div className="relative z-10 max-w-5xl px-4 pt-32 md:pt-36 mx-auto text-center">
+          <h1 className="text-4xl md:text-5xl lg:text-7xl font-black mb-6 tracking-tight leading-snug">
+            <span className="text-white drop-shadow-lg">Delivering</span> <span className="text-white/90 drop-shadow-lg">The World’s Finest</span>
+            <br className="block md:hidden" />
+            <span className="block mt-2 text-[#A37D5C]">Ethiopian Arabica</span>
+            <span className="text-white drop-shadow-lg"> Coffee</span>
           </h1>
           <p className="text-xl md:text-2xl text-white/90 font-bold mb-8 max-w-2xl mx-auto shadow-black/20 text-shadow-sm">
             From the birthplace of coffee to global markets — rooted in
@@ -113,17 +132,56 @@ const About = () => {
                 viewport={{ once: true }}
                 className="relative"
               >
+                {/* Title & Name - Moved to Top (Upstream Style) */}
+                <div className="mb-10 pl-6 border-l-4 border-amber-500">
+                  <div className="inline-block px-4 py-1.5 bg-[#3B2E24] text-amber-400 text-[10px] font-black uppercase tracking-[0.4em] rounded-sm mb-4">
+                    {displayData.role}
+                  </div>
+                  <h2 className="text-4xl md:text-5xl font-black text-[#3B2E24] dark:text-white leading-none font-serif tracking-tight">
+                    {displayData.name}
+                  </h2>
+                </div>
+
                 <div className="relative group perspective-1000">
                   {/* Main Image Container */}
                   <motion.div
                     whileHover={{ rotateY: -5, rotateX: 5, scale: 1.02 }}
-                    className="relative aspect-[4/5] max-w-sm mx-auto rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(59,46,36,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] z-10 border-8 border-white dark:border-white/10"
+                    className="relative aspect-[4/5] max-w-sm lg:max-w-lg mx-auto rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(59,46,36,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] z-10 border-8 border-white dark:border-white/10"
                   >
-                    <img
-                      src={displayData.image}
-                      alt={displayData.name}
-                      className="w-full h-full object-cover object-top transition-all duration-700"
-                    />
+                    {/* Display slider images if available, otherwise show main image */}
+                    {displayData.sliderImages && displayData.sliderImages.length > 0 ? (
+                      <>
+                        {displayData.sliderImages.map((imgUrl, idx) => (
+                          <img
+                            key={idx}
+                            src={imgUrl}
+                            alt={`${displayData.name} - ${idx + 1}`}
+                            className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-1000 ${idx === currentSlideIndex ? 'opacity-100' : 'opacity-0'
+                              }`}
+                          />
+                        ))}
+                        {/* Slider indicators */}
+                        <div className="absolute bottom-24 left-0 right-0 flex justify-center gap-2 z-20">
+                          {displayData.sliderImages.map((_, idx) => (
+                            <button
+                              key={idx}
+                              onClick={() => setCurrentSlideIndex(idx)}
+                              className={`w-2 h-2 rounded-full transition-all duration-300 ${idx === currentSlideIndex
+                                  ? 'bg-white w-8'
+                                  : 'bg-white/50 hover:bg-white/75'
+                                }`}
+                              aria-label={`Go to slide ${idx + 1}`}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <img
+                        src={displayData.image}
+                        alt={displayData.name}
+                        className="w-full h-full object-cover object-top transition-all duration-700"
+                      />
+                    )}
                     {/* Smooth Golden Overlay on Hover */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#3B2E24]/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
 
@@ -138,16 +196,6 @@ const About = () => {
                   {/* <div className="absolute -inset-4 border-2 border-[#A37D5C]/20 rounded-[3rem] -z-10 animate-pulse" /> */}
                   <div className="absolute -top-12 -left-12 w-48 h-48 bg-amber-400/10 rounded-full blur-3xl -z-20" />
                   <div className="absolute -bottom-12 -right-12 w-64 h-64 bg-[#3B2E24]/5 rounded-full blur-3xl -z-20" />
-                </div>
-
-                {/* Title & Name directly under the gallery image */}
-                <div className="mt-10 pl-6 border-l-4 border-amber-500">
-                  <div className="inline-block px-4 py-1.5 bg-[#3B2E24] text-amber-400 text-[10px] font-black uppercase tracking-[0.4em] rounded-sm mb-4">
-                    {displayData.role}
-                  </div>
-                  <h2 className="text-4xl md:text-5xl font-black text-[#3B2E24] dark:text-white leading-none font-serif tracking-tight">
-                    {displayData.name}
-                  </h2>
                 </div>
               </motion.div>
 
@@ -201,7 +249,7 @@ const About = () => {
       </section>
 
       {/* 📜 Company Overview & Mission - Redesigned for Premium Impact */}
-      <section className="relative py-32 bg-[#FDFCF8] dark:bg-[#0a0a0a] overflow-hidden">
+      <section className="relative pt-10 pb-10 md:pb-32 bg-[#FDFCF8] dark:bg-[#0a0a0a] overflow-hidden">
         <div className="absolute top-1/2 left-0 w-[800px] h-[800px] bg-red-50/50 dark:bg-red-900/5 rounded-full blur-[150px] -translate-x-1/2 -translate-y-1/2 -z-0" />
 
         <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -269,7 +317,7 @@ const About = () => {
       </section>
 
       {/* 🌟 Values Section - Premium Cards */}
-      <section className="relative z-10 bg-white dark:bg-[#050505] py-32 px-6 md:px-20 border-y border-gray-100 dark:border-white/5">
+      <section className="relative z-10 bg-white dark:bg-[#050505] py-10 md:py-32 px-6 md:px-20 border-y border-gray-100 dark:border-white/5">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0 }}
@@ -284,10 +332,30 @@ const About = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { icon: Sparkles, title: "Unmatched Quality", desc: "Rigorous SCA-grading and moisture control for flavor preservation.", color: "amber" },
-              { icon: Leaf, title: "True Sustainability", desc: "Supporting bio-diverse farms and equitable returns for all partners.", color: "green" },
-              { icon: LinkIcon, title: "Seed-to-Ship", desc: "Complete lot separation and detailed provenance for every buyer.", color: "blue" },
-              { icon: Ship, title: "Global Reliability", desc: "Proven logistics and guaranteed on-time delivery worldwide.", color: "red" }
+              {
+                id: "01",
+                title: "Exemplary Quality Standards",
+                desc: "Every lot undergoes stringent Q-Grade verification by certified experts, ensuring only defect-free, high-scoring beans are approved for global distribution.",
+                image: exemplary
+              },
+              {
+                id: "02",
+                title: "Sustainable Integrity",
+                desc: "We drive community prosperity through ethical sourcing models that prioritize direct trade equity and regenerative agricultural practices.",
+                image: integrity
+              },
+              {
+                id: "03",
+                title: "Transparent Provenance",
+                desc: "Our integrated supply chain provides verifiable traceability from the washing station to the final shipment, guaranteeing authentic origin assurance.",
+                image: "https://images.unsplash.com/photo-1610632380989-680fe40816c6?auto=format&fit=crop&w=800&q=80"
+              },
+              {
+                id: "04",
+                title: "Precision Logistics",
+                desc: "Leveraging robust global networks, we ensure temperature-controlled, timely delivery of your shipments, preserving freshness from port to warehouse.",
+                image: logistics
+              }
             ].map((value, idx) => (
               <motion.div
                 key={idx}
@@ -295,19 +363,31 @@ const About = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                className="group relative p-10 bg-[#FDFCF8] dark:bg-white/5 rounded-[2rem] border border-gray-100 dark:border-white/10 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden"
+                className="group relative flex flex-col bg-white dark:bg-white/5 rounded-[2.5rem] overflow-hidden shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-gray-100 dark:border-white/10"
               >
-                <div className={`absolute -top-12 -right-12 w-32 h-32 bg-${value.color}-500/5 rounded-full group-hover:scale-150 transition-transform duration-700`} />
-                <div className="relative z-10">
-                  <div className={`w-16 h-16 flex items-center justify-center bg-white dark:bg-white/10 rounded-2xl shadow-sm mb-8 group-hover:rotate-12 transition-transform`}>
-                    <value.icon className={`w-8 h-8 text-${value.color}-500`} />
+                {/* 🖼️ Card Image */}
+                <div className="relative h-64 overflow-hidden">
+                  <img
+                    src={value.image}
+                    alt={value.title}
+                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                  />
+                  {/* Subtle white shine instead of black gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-white/10 to-transparent opacity-50" />
+                </div>
+
+                {/* 📝 Card Content */}
+                <div className="relative p-8 flex-1 flex flex-col">
+                  <div className="mb-4">
+                    <h3 className="text-2xl font-black text-[#3B2E24] dark:text-white font-serif leading-tight">
+                      {value.title}
+                    </h3>
                   </div>
-                  <h3 className="text-xl font-bold text-[#3B2E24] dark:text-white mb-4 font-serif">{value.title}</h3>
-                  <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed font-medium">
+
+                  <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed font-medium">
                     {value.desc}
                   </p>
                 </div>
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
               </motion.div>
             ))}
           </div>
